@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ARSA ARGENTINA - Catálogo</title>
+    <title>ARSA ARGENTINA - Unidades</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,8 +14,8 @@
                 extend: {
                     colors: {
                         industrial: '#F59E0B',
-                        bgDark: '#0A0A0A',
-                        cardDark: '#141414'
+                        arsaAzul: '#13223d',
+                        arsaGlass: 'rgba(255, 255, 255, 0.15)'
                     }
                 }
             }
@@ -23,16 +23,39 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0A0A0A; color: #E5E5E5; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #13223d; 
+            color: #FFFFFF; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-header { 
+            background: rgba(19, 34, 61, 0.95); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px); 
+        }
+
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
         .active-scale:active { transform: scale(0.96); transition: 0.1s; }
-        .glass-header { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        
         .thumbnail-container::after { content: ""; display: block; padding-bottom: 75%; }
-        .item-selected { border: 2px solid #F59E0B !important; background: rgba(245, 158, 11, 0.1) !important; }
+        .item-selected { border: 2px solid #F59E0B !important; background: rgba(245, 158, 11, 0.2) !important; }
         ::-webkit-scrollbar { display: none; }
         
         .shimmer {
-            background: linear-gradient(90deg, #141414 25%, #1a1a1a 50%, #141414 75%);
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
         }
@@ -43,69 +66,75 @@
 
         .category-icon-box {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
         }
 
-        .glow-icon {
-            filter: drop-shadow(0 0 5px currentColor);
-        }
+        .glow-icon { filter: drop-shadow(0 0 8px currentColor); }
     </style>
 </head>
 <body class="select-none touch-pan-y overflow-x-hidden">
 
-    <header class="glass-header sticky top-0 z-50 border-b border-white/5 px-6 py-4">
+    <!-- CABECERA -->
+    <header class="glass-header sticky top-0 z-50 border-b border-white/10 px-6 py-5">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-[10px] font-black tracking-[0.2em] text-industrial uppercase">ARSA ARGENTINA</h1>
-                <p id="nav-title" class="text-lg font-bold text-white uppercase tracking-tight">Secciones</p>
+                <h1 class="text-[10px] font-black tracking-[0.3em] text-industrial uppercase">ARSA ARGENTINA</h1>
+                <p id="nav-title" class="text-xl font-extrabold text-white uppercase tracking-tight">Unidades</p>
             </div>
-            <div id="selection-badge" class="hidden bg-industrial text-black text-[10px] font-black px-2 py-1 rounded-md shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+            <div id="selection-badge" class="hidden bg-industrial text-black text-[10px] font-black px-3 py-1 rounded-full shadow-lg">
                 0 SELECCIONADOS
             </div>
         </div>
     </header>
 
-    <main id="view-categories" class="p-4 grid grid-cols-2 gap-4 pb-20">
-        </main>
+    <!-- VISTA: CATEGORÍAS (UNIDADES) -->
+    <main id="view-categories" class="p-5 grid grid-cols-2 gap-5 pb-24">
+        <!-- Renderizado vía JS -->
+    </main>
 
+    <!-- VISTA: GALERÍA -->
     <main id="view-gallery" class="hidden p-4 grid grid-cols-2 gap-3 pb-40">
-        </main>
+        <!-- Renderizado vía JS -->
+    </main>
 
-    <button id="btn-back" onclick="goHome()" class="hidden fixed bottom-28 left-6 w-14 h-14 bg-white text-black rounded-full shadow-2xl z-40 flex items-center justify-center active-scale transition-all border-4 border-black">
+    <!-- BOTÓN VOLVER -->
+    <button id="btn-back" onclick="goHome()" class="hidden fixed bottom-28 left-6 w-14 h-14 bg-white text-[#13223d] rounded-full shadow-2xl z-40 flex items-center justify-center active-scale transition-all border-4 border-[#13223d]">
         <i class="fa-solid fa-arrow-left text-xl"></i>
     </button>
 
-    <div id="modal-preview" class="fixed inset-0 bg-black z-[60] hidden flex flex-col">
+    <!-- MODAL VISTA PREVIA -->
+    <div id="modal-preview" class="fixed inset-0 bg-[#0a1221] z-[60] hidden flex flex-col">
         <div class="p-4 flex justify-between items-center border-b border-white/10 glass-header">
-            <span id="preview-name" class="text-xs font-bold truncate pr-4 text-gray-400 uppercase tracking-widest">Vista Previa</span>
+            <span id="preview-name" class="text-xs font-bold truncate pr-4 text-gray-300 uppercase tracking-widest">Vista Previa</span>
             <button onclick="closePreview()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white active-scale">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <div id="preview-frame" class="flex-1 w-full bg-black flex flex-col items-center justify-center overflow-hidden">
+            <!-- El iframe se inyecta aquí -->
         </div>
-        <div class="p-6 safe-bottom bg-black border-t border-white/5 flex flex-col gap-3">
-            <button id="btn-open-external" class="w-full py-3 bg-white/10 text-white rounded-xl text-xs font-bold uppercase tracking-widest active-scale border border-white/5">
-                <i class="fa-solid fa-up-right-from-square mr-2"></i> Abrir pantalla completa
+        <div class="p-6 safe-bottom bg-[#13223d] border-t border-white/10 flex flex-col gap-3">
+            <button id="btn-open-external" class="w-full py-3 bg-white/10 text-white rounded-xl text-xs font-bold uppercase tracking-widest active-scale border border-white/10">
+                <i class="fa-solid fa-up-right-from-square mr-2"></i> Abrir en pantalla completa
             </button>
-            <button id="btn-share-single" class="w-full py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale shadow-lg shadow-green-900/20 uppercase text-sm tracking-widest">
+            <button id="btn-share-single" class="w-full py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale shadow-lg shadow-green-900/40 uppercase text-sm tracking-widest">
                 <i class="fa-brands fa-whatsapp text-xl"></i> Compartir archivo
             </button>
         </div>
     </div>
 
+    <!-- BARRA COMPARTIR LOTE -->
     <div id="batch-bar" class="fixed bottom-0 left-0 w-full glass-header border-t border-white/10 p-4 transform translate-y-full transition-all duration-500 z-50 safe-bottom">
         <div class="flex gap-3">
-            <button onclick="deselectAll()" class="flex-1 py-4 bg-white/5 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-400 active-scale border border-white/5">Limpiar</button>
+            <button onclick="deselectAll()" class="flex-1 py-4 bg-white/5 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-300 active-scale border border-white/10">Limpiar</button>
             <button onclick="shareBatch()" class="flex-[2] py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-green-900/40 active-scale border border-green-500/20">
                 <i class="fa-brands fa-whatsapp text-xl"></i> ENVIAR LOTE
             </button>
@@ -114,19 +143,29 @@
 
     <script>
         const database = [
-            { id: 'pre', name: 'PRESENTACIÓN', icon: 'fa-desktop', color: '#F59E0B', links: [
-                'https://drive.google.com/file/d/1_26SzwzzAmibeq4eW4gyfyGKGNxjIA4G/view?usp=drive_link'
+            { id: 'iot', name: 'IOT', icon: 'fa-microchip', color: '#FFFFFF', links: [
+                'https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view?usp=drive_link',
+                'https://drive.google.com/file/d/1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-/view?usp=drive_link',
+                'https://drive.google.com/file/d/1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq/view?usp=drive_link',
+                'https://drive.google.com/file/d/1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI/view?usp=drive_link',
+                'https://drive.google.com/file/d/1FttcXpKwyfjJlnf6fFBgs0TmlfPPle4d/view?usp=drive_link',
+                'https://drive.google.com/file/d/1fRreMXteAiv5Eq1SnnF73WpuZKsLAU1p/view?usp=drive_link'
             ]},
-            { id: 'mec', name: 'MECANIZADO', icon: 'fa-gears', color: '#64748B', links: [
+            { id: 'pre', name: 'PRESENTACIÓN', icon: 'fa-desktop', color: '#FFFFFF', links: [
+                'https://drive.google.com/file/d/1_26SzwzzAmibeq4eW4gyfyGKGNxjIA4G/view?usp=drive_link',
+                'https://drive.google.com/file/d/10TWESSwKeJME_5hdNV5rnhFAr_H8kdxc/view?usp=drive_link'
+            ]},
+            { id: 'mec', name: 'MECANIZADO', icon: 'fa-gears', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/1xXrR0KRHKorjMNGSeDXD6r9IsMGZOfPy/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1QMLlOJ88ka-_SMyB2jPqNdDdxOw0mDp8/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1X3yLu-QzQiGiFSgSIox_t_90wiQghlpU/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1WrDWwU5pivPxqwjo-JJ9ACm0UwJL1EHz/view?usp=drive_link'
+                'https://drive.google.com/file/d/1WrDWwU5pivPxqwjo-JJ9ACm0UwJL1EHz/view?usp=drive_link',
+                'https://drive.google.com/file/d/1QTFQQuhCgkgWHeI1F_W5jC0e5NxLSk3V/view?usp=drive_link'
             ]},
-            { id: 'iny', name: 'INYECCIÓN', icon: 'fa-syringe', color: '#06B6D4', links: [
+            { id: 'iny', name: 'INYECCIÓN', icon: 'fa-syringe', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/1i84HyJxkk9gWpUr4YFU4B5CiUjwa3CEZ/view?usp=drive_link'
             ]},
-            { id: 'mot', name: 'MOTORES', icon: 'fa-car-side', color: '#EF4444', links: [
+            { id: 'mot', name: 'MOTORES', icon: 'fa-car-side', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1asyYb_U76DcOwqf7Gyki2vF-MGG0Gbr2/view?usp=drive_link', 
@@ -138,16 +177,17 @@
                 'https://drive.google.com/file/d/1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1Ryws1xXJPiTMXHP0j-TWR2L2Ec6c9Orb/view?usp=drive_link'
             ]},
-            { id: 'pru', name: 'BANCO PRUEBAS', icon: 'fa-gauge-high', color: '#8B5CF6', links: [
+            { id: 'pru', name: 'BANCO PRUEBAS', icon: 'fa-gauge-high', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/10D2ShM38kSvznCh2kN1ZxnjEU_xGHib9/view?usp=drive_link', 
                 'https://drive.google.com/file/d/12h7InEX_NsVeqm7FnYogwxIwduDPmHc4/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1LC9HTnx2ZuMVCOvYzY9iqJ8GeNTxBDXz/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1T6O8B1BoVarko2GcYVFSO10IuiylW8kk/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1GffddduUGdJg5nUcm0u3ulpG41rvrYQ8/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1FWy1hCjMglZwGEtuwPmWvb0y3UJ5WY6H/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1XbuJlko3ZjvnLiK2LBkD_-QJpxZA0tT9/view?usp=drive_link'
+                'https://drive.google.com/file/d/1XbuJlko3ZjvnLiK2LBkD_-QJpxZA0tT9/view?usp=drive_link',
+                'https://drive.google.com/file/d/16h7IQW8kCkcx-3TUr88THtc2YDpaPma_/view?usp=drive_link'
             ]},
-            { id: 'cam', name: 'SERVICIO CAMPO', icon: 'fa-truck-fast', color: '#10B981', links: [
+            { id: 'cam', name: 'SERVICIO CAMPO', icon: 'fa-truck-fast', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/1KPD0gSDri1_68ifZBUe9CRqJThHq-xLW/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1FC8lsJBoI0_bsFsD_1RvcX4lmpkYIOpb/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5/view?usp=drive_link', 
@@ -157,9 +197,12 @@
                 'https://drive.google.com/file/d/1j_VdCS8tyKwOa_FWTZe-eTltFR0mLAK6/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1B1jijLQvudN4nXnHwmn13MbW5l8DCUhi/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1bAEV5Ldb4UV4WbKqbFNb_2JDTZtb6t-A/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1S5eAjaS1x5pKM7MQExiVnrGw3wKhv1H2/view?usp=drive_link'
+                'https://drive.google.com/file/d/1S5eAjaS1x5pKM7MQExiVnrGw3wKhv1H2/view?usp=drive_link',
+                'https://drive.google.com/file/d/1L6E2GD1FKeKjHB2tvZEjFYpnjipKoV9m/view?usp=drive_link',
+                'https://drive.google.com/file/d/1JPFEyLwyNAuVy09BqmIRlvUghT3r9vo6/view?usp=drive_link',
+                'https://drive.google.com/file/d/1THDU7Y3VkL-EYzy1GDeLUYsDsiVIy2pQ/view?usp=drive_link'
             ]},
-            { id: 'gen', name: 'GENERACIÓN', icon: 'fa-bolt', color: '#FCD34D', links: [
+            { id: 'gen', name: 'GENERACIÓN', icon: 'fa-bolt', color: '#FFFFFF', links: [
                 'https://drive.google.com/file/d/14cDIUl1CvVxjZiIFE6V8xiArhjG054oZ/view?usp=drive_link', 
                 'https://drive.google.com/file/d/1BD4vgEqIM57it5S1NSBXiOODO0LjEkfF/view?usp=drive_link', 
                 'https://drive.google.com/file/d/14Fj_Us4hsY89wF31fXpTj8XwkSMqPrM1/view?usp=drive_link', 
@@ -182,10 +225,9 @@
         ];
 
         let selectedItems = new Set();
-
-        function getDriveId(url) {
-            const match = url.match(/[-\w]{25,}/);
-            return match ? match[0] : null;
+        function getDriveId(url) { 
+            const match = url.match(/[-\w]{25,}/); 
+            return match ? match[0] : null; 
         }
 
         function renderHome() {
@@ -193,15 +235,15 @@
             container.innerHTML = '';
             database.forEach(cat => {
                 const div = document.createElement('div');
-                div.className = 'active-scale bg-cardDark rounded-[2rem] p-6 flex flex-col items-center justify-center text-center gap-4 border border-white/5 shadow-xl';
+                div.className = 'active-scale glass-card rounded-[2rem] p-6 flex flex-col items-center justify-center text-center gap-4 active:bg-white/20 transition-all';
                 div.onclick = () => showCategory(cat.id);
                 div.innerHTML = `
-                    <div class="category-icon-box" style="border-bottom: 3px solid ${cat.color}66">
-                        <i class="fa-solid ${cat.icon} text-2xl glow-icon" style="color: ${cat.color}"></i>
+                    <div class="category-icon-box">
+                        <i class="fa-solid ${cat.icon} text-2xl glow-icon text-white"></i>
                     </div>
                     <div>
-                        <h2 class="text-[10px] font-black uppercase tracking-widest text-white/90">${cat.name}</h2>
-                        <p class="text-[9px] text-gray-500 mt-1 font-bold">${cat.links.length} ELEMENTOS</p>
+                        <h2 class="text-[11px] font-extrabold uppercase tracking-widest text-white">${cat.name}</h2>
+                        <p class="text-[9px] text-white/50 mt-1 font-bold uppercase tracking-tighter">${cat.links.length} ELEMENTOS</p>
                     </div>
                 `;
                 container.appendChild(div);
@@ -214,55 +256,35 @@
             document.getElementById('view-categories').classList.add('hidden');
             document.getElementById('view-gallery').classList.remove('hidden');
             document.getElementById('btn-back').classList.remove('hidden');
-
             const container = document.getElementById('view-gallery');
             container.innerHTML = '';
-
             cat.links.forEach((link, idx) => {
                 const fileId = getDriveId(link);
                 const isSelected = selectedItems.has(link);
                 const card = document.createElement('div');
-                card.className = `active-scale relative bg-cardDark rounded-2xl overflow-hidden p-2 border border-white/5 shadow-lg ${isSelected ? 'item-selected' : ''}`;
-                
+                card.className = `active-scale relative glass-card rounded-2xl overflow-hidden p-2 shadow-lg ${isSelected ? 'item-selected' : ''}`;
                 const thumbUrl = `https://lh3.googleusercontent.com/d/${fileId}=w600`;
-                
                 card.innerHTML = `
                     <div class="thumbnail-container relative bg-black/40 rounded-xl overflow-hidden mb-2 shimmer" onclick="openPreview('${link}')">
-                        <img src="${thumbUrl}" 
-                             class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" 
-                             onload="this.style.opacity='0.9'; this.parentElement.classList.remove('shimmer')"
-                             onerror="handleImageError(this, '${cat.color}', '${fileId}')">
-                        <div class="absolute inset-0 flex items-center justify-center bg-black/10">
-                            <i class="fa-solid fa-play text-white/60 text-xs bg-black/40 p-2 rounded-full backdrop-blur-md"></i>
-                        </div>
+                        <img src="${thumbUrl}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.style.opacity='1'; this.parentElement.classList.remove('shimmer')" onerror="handleImageError(this)">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/10"><i class="fa-solid fa-play text-white text-xs bg-[#13223d]/60 p-2 rounded-full backdrop-blur-md"></i></div>
                     </div>
                     <div class="flex justify-between items-center px-1">
-                        <span class="text-[9px] font-black text-gray-500 uppercase tracking-tighter italic">Ref-${idx + 1}</span>
-                        <button onclick="event.stopPropagation(); toggleSelect('${link}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/5 text-gray-400'} flex items-center justify-center transition-all border border-white/10">
-                            <i class="fa-solid fa-check text-xs"></i>
-                        </button>
+                        <span class="text-[9px] font-black text-white/40 uppercase tracking-tighter italic">Ref-${idx + 1}</span>
+                        <button onclick="event.stopPropagation(); toggleSelect('${link}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all border border-white/10"><i class="fa-solid fa-check text-xs"></i></button>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        function handleImageError(img, color, fileId) {
-            if(!img.dataset.retried) {
-                img.dataset.retried = "true";
-                img.src = `https://lh3.googleusercontent.com/d/${fileId}=s400`;
-                return;
-            }
+        function handleImageError(img) {
             img.parentElement.classList.remove('shimmer');
-            img.parentElement.style.background = `linear-gradient(45deg, ${color}33, #000000)`;
-            img.parentElement.innerHTML += `<div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                <i class="fa-solid fa-circle-play text-2xl" style="color: ${color}cc"></i>
-                <span class="text-[7px] font-bold text-white/40 uppercase tracking-widest">Multimedia</span>
-            </div>`;
+            img.parentElement.innerHTML += `<div class="absolute inset-0 flex flex-col items-center justify-center gap-2"><i class="fa-solid fa-file-video text-2xl text-white/40"></i><span class="text-[7px] font-bold text-white/40 uppercase tracking-widest text-center px-2">Video/Imagen en Drive</span></div>`;
         }
 
         function goHome() {
-            document.getElementById('nav-title').innerText = 'Secciones';
+            document.getElementById('nav-title').innerText = 'Unidades';
             document.getElementById('view-categories').classList.remove('hidden');
             document.getElementById('view-gallery').classList.add('hidden');
             document.getElementById('btn-back').classList.add('hidden');
@@ -270,34 +292,18 @@
         }
 
         function toggleSelect(link, btn) {
-            if (selectedItems.has(link)) {
-                selectedItems.delete(link);
-            } else {
-                selectedItems.add(link);
-            }
+            if (selectedItems.has(link)) selectedItems.delete(link); else selectedItems.add(link);
             updateSelectionUI();
-            
             const card = btn.closest('.active-scale');
-            if (selectedItems.has(link)) {
-                card.classList.add('item-selected');
-                btn.className = 'w-8 h-8 rounded-xl bg-industrial text-black flex items-center justify-center transition-all border border-white/10';
-            } else {
-                card.classList.remove('item-selected');
-                btn.className = 'w-8 h-8 rounded-xl bg-white/5 text-gray-400 flex items-center justify-center transition-all border border-white/10';
-            }
+            if (selectedItems.has(link)) { card.classList.add('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-industrial text-black flex items-center justify-center transition-all border border-white/10'; } 
+            else { card.classList.remove('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-white/10 text-white flex items-center justify-center transition-all border border-white/10'; }
         }
 
         function updateSelectionUI() {
             const badge = document.getElementById('selection-badge');
             const bar = document.getElementById('batch-bar');
-            if (selectedItems.size > 0) {
-                badge.innerText = `${selectedItems.size} SELECCIONADOS`;
-                badge.classList.remove('hidden');
-                bar.classList.remove('translate-y-full');
-            } else {
-                badge.classList.add('hidden');
-                bar.classList.add('translate-y-full');
-            }
+            if (selectedItems.size > 0) { badge.innerText = `${selectedItems.size} SELECCIONADOS`; badge.classList.remove('hidden'); bar.classList.remove('translate-y-full'); } 
+            else { badge.classList.add('hidden'); bar.classList.add('translate-y-full'); }
         }
 
         function openPreview(link) {
@@ -305,52 +311,39 @@
             const frame = document.getElementById('preview-frame');
             const fileId = getDriveId(link);
             
-            frame.innerHTML = `
-                <div class="relative w-full h-full flex flex-col items-center justify-center bg-black">
-                    <iframe src="https://drive.google.com/file/d/${fileId}/preview" class="w-full h-full border-none" allow="autoplay"></iframe>
-                    <div class="absolute bottom-4 text-[10px] text-gray-500 italic pointer-events-none px-4 text-center">
-                        Si el video no carga, usa el botón "Abrir pantalla completa"
-                    </div>
-                </div>
-            `;
+            // Usamos el visor de Google Drive para mayor compatibilidad
+            const previewUrl = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
+            
+            frame.innerHTML = `<iframe src="${previewUrl}" class="w-full h-full border-none" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             
             document.getElementById('btn-open-external').onclick = () => window.open(link, '_blank');
             document.getElementById('btn-share-single').onclick = () => shareViaWhatsApp([link]);
             modal.classList.remove('hidden');
         }
 
-        function closePreview() {
-            document.getElementById('modal-preview').classList.add('hidden');
-            document.getElementById('preview-frame').innerHTML = '';
+        function closePreview() { 
+            document.getElementById('modal-preview').classList.add('hidden'); 
+            document.getElementById('preview-frame').innerHTML = ''; 
         }
 
-        function deselectAll() {
-            selectedItems.clear();
-            updateSelectionUI();
-            const currentCatName = document.getElementById('nav-title').innerText;
-            const cat = database.find(c => c.name === currentCatName);
-            if (cat) showCategory(cat.id);
+        function deselectAll() { 
+            selectedItems.clear(); 
+            updateSelectionUI(); 
+            const currentCatName = document.getElementById('nav-title').innerText; 
+            const cat = database.find(c => c.name === currentCatName); 
+            if (cat) showCategory(cat.id); 
         }
 
         function shareViaWhatsApp(links) {
             let message = "*Material Industrial Solicitado:* \n\n";
-            links.forEach((l, i) => {
-                message += `🔹 *Archivo ${i+1}:* ${l}\n\n`;
-            });
-            message += "----------------------------\n";
-            message += "📍 *Enviado desde ARSA ARGENTINA*\n";
-            message += "Conocé más en nuestra web y redes:\n\n";
-            message += "🌐 *Web:* www.arsa.ar\n";
-            message += "📸 *Instagram:* https://www.instagram.com/arsaargentina";
-            
-            const encoded = encodeURIComponent(message);
-            window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+            links.forEach((l, i) => { message += `🔹 *Archivo ${i+1}:* ${l}\n\n`; });
+            message += "----------------------------\n📍 *ARSA ARGENTINA*\n🌐 www.arsa.ar\n📸 @arsaargentina";
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        function shareBatch() {
-            shareViaWhatsApp(Array.from(selectedItems));
-        }
-
+        function shareBatch() { shareViaWhatsApp(Array.from(selectedItems)); }
+        
+        // Carga inicial
         renderHome();
     </script>
 </body>
