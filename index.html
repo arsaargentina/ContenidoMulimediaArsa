@@ -83,80 +83,28 @@
     </div>
 
     <script>
-        // RECUPERADOS TODOS TUS LINKS ORIGINALES
-        const database = [
-            { id: 'iny', name: 'INYECCIÓN', icon: 'fa-syringe', links: [
-                'https://drive.google.com/file/d/1i84HyJxkk9gWpUr4YFU4B5CiUjwa3CEZ/view', 'https://drive.google.com/file/d/1j7Mnqc8LHO_gP7YtlZ4Urnhygfsq0x7z/view',
-                'https://drive.google.com/file/d/1x3AS0X9As5CDx9qgnI5lHkt8k6RYxHZA/view', 'https://drive.google.com/file/d/1mX0Cv0KC70glSPp-n-XyLcA8C2yO9qp_/view',
-                'https://drive.google.com/file/d/1rogJf9p46lQNO8ePpyMpxZV0xxmerqTX/view', 'https://drive.google.com/file/d/17Qw6N9ItDXHZGay1GFctXO4KSolC-UjI/view',
-                'https://drive.google.com/file/d/1XH9vTZ8pz42I0EG8j39urEbAijww_VBA/view', 'https://drive.google.com/file/d/1xb2HT1qzN2vRYpN1H6bjswAhA1QNcl-J/view',
-                'https://drive.google.com/file/d/1az4cRWzKpvHCNTYLMwwrn-Iqzp430urO/view', 'https://drive.google.com/file/d/1NJJKhfgMQD7CV5JKiU7rhQGvT7p4-Tf6/view',
-                'https://drive.google.com/file/d/16ZEwoTvPOPfJrGzysaz-U57BqyQnTCim/view', 'https://drive.google.com/file/d/1XZmVGVf9y1d17oFmOeAWevgZagPQ0j7P/view',
-                'https://drive.google.com/file/d/1HROsVNU0S8JscpzPpEvg3LncNE1KbEtu/view', 'https://drive.google.com/file/d/182ejPggMLUINaHoW3py9Ugos7yMG2PF2/view'
-            ]},
-            { id: 'mot', name: 'MOTORES', icon: 'fa-car-side', links: [
-                'https://drive.google.com/file/d/1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W/view', 'https://drive.google.com/file/d/1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt/view',
-                'https://drive.google.com/file/d/1asyYb_U76DcOwqf7Gyki2vF-MGG0Gbr2/view', 'https://drive.google.com/file/d/1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN/view',
-                'https://drive.google.com/file/d/1cWJnUTJwAD6EhHTynGY5fxnITwcuZ_P1/view', 'https://drive.google.com/file/d/1-qdAjUHceOs3_csiYv-sESjaWxsrC5Vz/view',
-                'https://drive.google.com/file/d/1fMuVrDDkgSGvZEMf4SnhnIGI5YqJ-OMS/view', 'https://drive.google.com/file/d/1oMINm7cVK0kXNpQ4IStPNd2EjDea2wuL/view',
-                'https://drive.google.com/file/d/1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg/view', 'https://drive.google.com/file/d/1Ryws1xXJPiTMXHP0j-TWR2L2Ec6c9Orb/view'
-            ]},
-            { id: 'iot', name: 'IOT', icon: 'fa-microchip', links: [
-                'https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view', 'https://drive.google.com/file/d/1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-/view',
-                'https://drive.google.com/file/d/1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq/view', 'https://drive.google.com/file/d/1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI/view',
-                'https://drive.google.com/file/d/1FttcXpKwyfjJlnf6fFBgs0TmlfPPle4d/view', 'https://drive.google.com/file/d/1fRreMXteAiv5Eq1SnnF73WpuZKsLAU1p/view'
-            ]},
-            { id: 'pre', name: 'PRESENTACIÓN', icon: 'fa-desktop', links: [
-                'https://drive.google.com/file/d/1_26SzwzzAmibeq4eW4gyfyGKGNxjIA4G/view', 'https://drive.google.com/file/d/10TWESSwKeJME_5hdNV5rnhFAr_H8kdxc/view'
-            ]},
-            { id: 'mec', name: 'MECANIZADO', icon: 'fa-gears', links: [
-                'https://drive.google.com/file/d/1xXrR0KRHKorjMNGSeDXD6r9IsMGZOfPy/view', 'https://drive.google.com/file/d/1QMLlOJ88ka-_SMyB2jPqNdDdxOw0mDp8/view',
-                'https://drive.google.com/file/d/1X3yLu-QzQiGiFSgSIox_t_90wiQghlpU/view', 'https://drive.google.com/file/d/1WrDWwU5pivPxqwjo-JJ9ACm0UwJL1EHz/view',
-                'https://drive.google.com/file/d/1QTFQQuhCgkgWHeI1F_W5jC0e5NxLSk3V/view'
-            ]},
-            { id: 'pru', name: 'BANCO PRUEBAS', icon: 'fa-gauge-high', links: [
-                'https://drive.google.com/file/d/10D2ShM38kSvznCh2kN1ZxnjEU_xGHib9/view', 'https://drive.google.com/file/d/12h7InEX_NsVeqm7FnYogwxIwduDPmHc4/view',
-                'https://drive.google.com/file/d/1LC9HTnx2ZuMVCOvYzY9iqJ8GeNTxBDXz/view', 'https://drive.google.com/file/d/1T6O8B1BoVarko2GcYVFSO10IuiylW8kk/view',
-                'https://drive.google.com/file/d/1GffddduUGdJg5nUcm0u3ulpG41rvrYQ8/view', 'https://drive.google.com/file/d/1FWy1hCjMglZwGEtuwPmWvb0y3UJ5WY6H/view',
-                'https://drive.google.com/file/d/1XbuJlko3ZjvnLiK2LBkD_-QJpxZA0tT9/view', 'https://drive.google.com/file/d/16h7IQW8kCkcx-3TUr88THtc2YDpaPma_/view',
-                'https://drive.google.com/file/d/1Z8DQK1qlxztlJB0sQbGX-02sYrn7yrOp/view', 'https://drive.google.com/file/d/1ZWl3A0CcJqJLV3XtXbyDYEWkoG26pW10/view',
-                'https://drive.google.com/file/d/1c3son2iUbNnMNuqWByEmWra-U5yEFeTx/view', 'https://drive.google.com/file/d/1KZC_GdSCpLZdnbWB5HLSyQuxOmypE3Ct/view',
-                'https://drive.google.com/file/d/1sdzfxPWCEYVseLm4WPVyX7ONdYN-7Lnz/view', 'https://drive.google.com/file/d/19c2KVIr54XQyzlBgi6FLQS7MfBOVppL8/view',
-                'https://drive.google.com/file/d/11_zS20VwVr8gUChODG4ajQcLY4xhJ8p2/view', 'https://drive.google.com/file/d/1XaAi0n0fODm8O-fT8qOArkAy4bRJbCOA/view',
-                'https://drive.google.com/file/d/1gdDK3CnK2pn7kneG8RPoDuBRz-PVVBc5/view', 'https://drive.google.com/file/d/1jmYj9_9t9i6eF7oBjuMex7mc3ZP81VMK/view'
-            ]},
-            { id: 'cam', name: 'SERVICIO CAMPO', icon: 'fa-truck-fast', links: [
-                'https://drive.google.com/file/d/1KPD0gSDri1_68ifZBUe9CRqJThHq-xLW/view', 'https://drive.google.com/file/d/1FC8lsJBoI0_bsFsD_1RvcX4lmpkYIOpb/view',
-                'https://drive.google.com/file/d/1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5/view', 'https://drive.google.com/file/d/1drO689g-qnk-iGRAmi61T9Lnv5bHJZrh/view',
-                'https://drive.google.com/file/d/1Sg8-3AFC7udcb-REJ6ZdpmBfM4q-YXtm/view', 'https://drive.google.com/file/d/1W28Jzuqcg5DdSCdiGfg6HFpLWV4eRu6j/view',
-                'https://drive.google.com/file/d/1j_VdCS8tyKwOa_FWTZe-eTltFR0mLAK6/view', 'https://drive.google.com/file/d/1B1jijLQvudN4nXnHwmn13MbW5l8DCUhiv/view',
-                'https://drive.google.com/file/d/1bAEV5Ldb4UV4WbKqbFNb_2JDTZtb6t-A/view', 'https://drive.google.com/file/d/1S5eAjaS1x5pKM7MQExiVnrGw3wKhv1H2/view',
-                'https://drive.google.com/file/d/1L6E2GD1FKeKjHB2tvZEjFYpnjipKoV9m/view', 'https://drive.google.com/file/d/1JPFEyLwyNAuVy09BqmIRlvUghT3r9vo6/view',
-                'https://drive.google.com/file/d/1THDU7Y3VkL-EYzy1GDeLUYsDsiVIy2pQ/view'
-            ]},
-            { id: 'gen', name: 'GENERACIÓN', icon: 'fa-bolt', links: [
-                'https://drive.google.com/file/d/14cDIUl1CvVxjZiIFE6V8xiArhjG054oZ/view', 'https://drive.google.com/file/d/1BD4vgEqIM57it5S1NSBXiOODO0LjEkfF/view',
-                'https://drive.google.com/file/d/14Fj_Us4hsY89wF31fXpTj8XwkSMqPrM1/view', 'https://drive.google.com/file/d/1w7MlOyvk0190aJNBbCjA_sQuFEuLo6ma/view',
-                'https://drive.google.com/file/d/1SURH4H7cyp1oMSbIjXL4e7pM2efOeeCM/view', 'https://drive.google.com/file/d/17AGdm9PafapBFlqwaRkxVhkG73DWOWof/view',
-                'https://drive.google.com/file/d/1FzVpEBb39fAqaJg3qk8nIRl7RAv9XuDb/view', 'https://drive.google.com/file/d/1EqE7x2RjBRUqEkmNQDx8j3dnNOALfWOf/view',
-                'https://drive.google.com/file/d/1yHX8992NNTw8LNqY5j7s-045w_ClJxCj/view', 'https://drive.google.com/file/d/1L_IZ3CMFAEvAFBRK0DNgKoGN1OgN6pGf/view',
-                'https://drive.google.com/file/d/19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ/view', 'https://drive.google.com/file/d/1paKrGHBdTs7GaUyz4SgFFGlSN0sM_rmP/view',
-                'https://drive.google.com/file/d/1KoX7vrxbmz5hIAO41fa4hT1JSXGTiObC/view', 'https://drive.google.com/file/d/1rv2KWPttkFslysQGe4g2Gx1apRoQ6AoU/view',
-                'https://drive.google.com/file/d/1ML2d2xWIhIB8D__RiTU-9mQa_E7ieBY4/view', 'https://drive.google.com/file/d/1YJ1NIqhwPigxRZHOwnlfOYgoqd1V41ab/view',
-                'https://drive.google.com/file/d/182ejPggMLUINaHoW3py9Ugos7yMG2PF2/view', 'https://drive.google.com/file/d/1FVbnrDfn8Rxt1V9l99ptg4q9zatmN7kF/view'
-            ]}
-        ];
+        let database = [];
+        let fileNames = {};
 
-        const fileNames = {
-'1i84HyJxkk9gWpUr4YFU4B5CiUjwa3CEZ':'Prueba en Banco','1j7Mnqc8LHO_gP7YtlZ4Urnhygfsq0x7z':'Inyectores Perkins','1x3AS0X9As5CDx9qgnI5lHkt8k6RYxHZA':'Inyectores CATC18','1mX0Cv0KC70glSPp-n-XyLcA8C2yO9qp_':'Inyectores MANN','1rogJf9p46lQNO8ePpyMpxZV0xxmerqTX':'Bomba Lineal Bosch','17Qw6N9ItDXHZGay1GFctXO4KSolC-UjI':'Inyectores CAT C13','1XH9vTZ8pz42I0EG8j39urEbAijww_VBA':'Bomba Bosch','1xb2HT1qzN2vRYpN1H6bjswAhA1QNcl-J':'OM 906','1az4cRWzKpvHCNTYLMwwrn-Iqzp430urO':'Bomba Scania','1NJJKhfgMQD7CV5JKiU7rhQGvT7p4-Tf6':'Bomba OM366LA','16ZEwoTvPOPfJrGzysaz-U57BqyQnTCim':'Cat C13','1XZmVGVf9y1d17oFmOeAWevgZagPQ0j7P':'Inyectores C13','1HROsVNU0S8JscpzPpEvg3LncNE1KbEtu':'Mercedes y Scania','182ejPggMLUINaHoW3py9Ugos7yMG2PF2':'Motor PAL',
-'1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W':'OM 651','1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt':'DEUTZ F3L912-3','1asyYb_U76DcOwqf7Gyki2vF-MGG0Gbr2':'DEUTZ F3L912-2','1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN':'DEUTZ F3L912','1cWJnUTJwAD6EhHTynGY5fxnITwcuZ_P1':'DEUTZ','1-qdAjUHceOs3_csiYv-sESjaWxsrC5Vz':'DEUTZ 3CIL GAS','1fMuVrDDkgSGvZEMf4SnhnIGI5YqJ-OMS':'MWM Internacional','1oMINm7cVK0kXNpQ4IStPNd2EjDea2wuL':'CUMMINS ISB4','1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg':'PERKINS 6 Fase II','1Ryws1xXJPiTMXHP0j-TWR2L2Ec6c9Orb':'CUMMINS SD4',
-'1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu':'Resumen Ejecutivo IOT','1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-':'Demo Sistema IOT','1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq':'Capturas IOT 4','1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI':'Capturas IOT 3','1FttcXpKwyfjJlnf6fFBgs0TmlfPPle4d':'Capturas IOT 2','1fRreMXteAiv5Eq1SnnF73WpuZKsLAU1p':'Capturas IOT 1',
-'1_26SzwzzAmibeq4eW4gyfyGKGNxjIA4G':'Presentación','10TWESSwKeJME_5hdNV5rnhFAr_H8kdxc':'Brochure a Campo',
-'1xXrR0KRHKorjMNGSeDXD6r9IsMGZOfPy':'Balanceo','1QMLlOJ88ka-_SMyB2jPqNdDdxOw0mDp8':'Mecanizado','1X3yLu-QzQiGiFSgSIox_t_90wiQghlpU':'Cigüeñal 2','1WrDWwU5pivPxqwjo-JJ9ACm0UwJL1EHz':'Cigüeñal','1QTFQQuhCgkgWHeI1F_W5jC0e5NxLSk3V':'Mecanizado General',
-'10D2ShM38kSvznCh2kN1ZxnjEU_xGHib9':'Prueba Caterpillar 3304','12h7InEX_NsVeqm7FnYogwxIwduDPmHc4':'Prueba Xinchai 3','1LC9HTnx2ZuMVCOvYzY9iqJ8GeNTxBDXz':'Prueba Xinchai 2','1T6O8B1BoVarko2GcYVFSO10IuiylW8kk':'Prueba Xingchai','1GffddduUGdJg5nUcm0u3ulpG41rvrYQ8':'Prueba Caterpillar V12','1FWy1hCjMglZwGEtuwPmWvb0y3UJ5WY6H':'Prueba Caterpillar C11-2','1XbuJlko3ZjvnLiK2LBkD_-QJpxZA0tT9':'Prueba Caterpillar C11','16h7IQW8kCkcx-3TUr88THtc2YDpaPma_':'Prueba Mercedes','1Z8DQK1qlxztlJB0sQbGX-02sYrn7yrOp':'Prueba Detroit Serie 92','1ZWl3A0CcJqJLV3XtXbyDYEWkoG26pW10':'Prueba Mercedes OM 460','1c3son2iUbNnMNuqWByEmWra-U5yEFeTx':'Prueba Mercedes OM 924','1KZC_GdSCpLZdnbWB5HLSyQuxOmypE3Ct':'Prueba Mercedes OM 457','1sdzfxPWCEYVseLm4WPVyX7ONdYN-7Lnz':'Prueba Mercedes OM 447','19c2KVIr54XQyzlBgi6FLQS7MfBOVppL8':'Prueba Mercedes OM 502 LA','11_zS20VwVr8gUChODG4ajQcLY4xhJ8p2':'Prueba CAT 3406','1XaAi0n0fODm8O-fT8qOArkAy4bRJbCOA':'Prueba Mercedes OM 501','1gdDK3CnK2pn7kneG8RPoDuBRz-PVVBc5':'Prueba Volvo Penta','1jmYj9_9t9i6eF7oBjuMex7mc3ZP81VMK':'Prueba Mercedes OM352',
-'1KPD0gSDri1_68ifZBUe9CRqJThHq-xLW':'Servicio a Campo 4','1FC8lsJBoI0_bsFsD_1RvcX4lmpkYIOpb':'Servicio a Campo 3','1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5':'Servicio a Campo 2','1drO689g-qnk-iGRAmi61T9Lnv5bHJZrh':'Servicio a Campo 1','1Sg8-3AFC7udcb-REJ6ZdpmBfM4q-YXtm':'Servicio a Campo 10','1W28Jzuqcg5DdSCdiGfg6HFpLWV4eRu6j':'Servicio a Campo 9','1j_VdCS8tyKwOa_FWTZe-eTltFR0mLAK6':'Servicio a Campo 8','1B1jijLQvudN4nXnHwmn13MbW5l8DCUhiv':'Servicio a Campo 7','1bAEV5Ldb4UV4WbKqbFNb_2JDTZtb6t-A':'Servicio a Campo 6','1S5eAjaS1x5pKM7MQExiVnrGw3wKhv1H2':'Servicio a Campo 5','1L6E2GD1FKeKjHB2tvZEjFYpnjipKoV9m':'Servicio a Campo','1JPFEyLwyNAuVy09BqmIRlvUghT3r9vo6':'Servicio a Campo Químicos 1','1THDU7Y3VkL-EYzy1GDeLUYsDsiVIy2pQ':'Servicio a Campo Químicos 2',
-'14cDIUl1CvVxjZiIFE6V8xiArhjG054oZ':'Generación Envío','1BD4vgEqIM57it5S1NSBXiOODO0LjEkfF':'Generación Agro','14Fj_Us4hsY89wF31fXpTj8XwkSMqPrM1':'Generación 41 KVA','1w7MlOyvk0190aJNBbCjA_sQuFEuLo6ma':'Generación 70 KVA','1SURH4H7cyp1oMSbIjXL4e7pM2efOeeCM':'Generación Entregando','17AGdm9PafapBFlqwaRkxVhkG73DWOWof':'Generación OIL 3','1FzVpEBb39fAqaJg3qk8nIRl7RAv9XuDb':'Generación Construcción','1EqE7x2RjBRUqEkmNQDx8j3dnNOALfWOf':'Generación OIL 2','1yHX8992NNTw8LNqY5j7s-045w_ClJxCj':'Generación OIL','1L_IZ3CMFAEvAFBRK0DNgKoGN1OgN6pGf':'Generación Agro Video','19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ':'Generación Monitoreo 4','1paKrGHBdTs7GaUyz4SgFFGlSN0sM_rmP':'Generación Monitoreo 3','1KoX7vrxbmz5hIAO41fa4hT1JSXGTiObC':'Generación 41 KVA Vista','1rv2KWPttkFslysQGe4g2Gx1apRoQ6AoU':'Generación Ingresos','1ML2d2xWIhIB8D__RiTU-9mQa_E7ieBY4':'Generación Monitoreo 2','1YJ1NIqhwPigxRZHOwnlfOYgoqd1V41ab':'Generación 41 KVA Detalle','1FVbnrDfn8Rxt1V9l99ptg4q9zatmN7kF':'Generación Monitoreo 1'
-        };
+        async function initApp() {
+            try {
+                const res = await fetch('./data.json');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                database = data.database;
+                fileNames = data.fileNames;
+                renderHome();
+            } catch (err) {
+                document.body.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#13223d;color:#fff;font-family:sans-serif;gap:16px;padding:24px;text-align:center;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size:2.5rem;color:#F59E0B;"></i>
+                        <p style="font-size:1rem;font-weight:800;letter-spacing:.1em;">NO SE PUDO CARGAR LA BASE DE DATOS</p>
+                        <p style="font-size:.75rem;color:rgba(255,255,255,.5);">Verificá que el archivo <strong>data.json</strong> esté en la misma carpeta y que estés usando un servidor local.</p>
+                        <p style="font-size:.65rem;color:rgba(255,255,255,.3);">Error: ${err.message}</p>
+                        <button onclick="location.reload()" style="margin-top:8px;padding:12px 28px;background:#F59E0B;color:#13223d;border:none;border-radius:12px;font-weight:800;font-size:.8rem;letter-spacing:.1em;cursor:pointer;">REINTENTAR</button>
+                    </div>`;
+            }
+        }
 
         function getFileName(url) {
             const id = getDriveId(url);
@@ -315,7 +263,7 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
         function shareBatch() { shareViaWhatsApp(Array.from(selectedItems)); }
-        renderHome();
+        initApp();
     </script>
 </body>
 </html>
