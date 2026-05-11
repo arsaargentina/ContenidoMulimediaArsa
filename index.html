@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ARSA ARGENTINA - Unidades</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>ARSA ARGENTINA | Panel de Unidades</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script>
@@ -14,359 +12,240 @@
                 extend: {
                     colors: {
                         industrial: '#F59E0B',
-                        arsaAzul: '#13223d',
-                        arsaGlass: 'rgba(255, 255, 255, 0.15)'
+                        arsaAzul: '#0f172a'
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #13223d; 
-            color: #FFFFFF; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .glass-header { 
-            background: rgba(19, 34, 61, 0.95); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px); 
-        }
-
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #fff; -webkit-tap-highlight-color: transparent; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .active-scale:active { transform: scale(0.96); transition: 0.1s; }
-        
-        .thumbnail-container::after { content: ""; display: block; padding-bottom: 75%; }
-        .item-selected { border: 2px solid #F59E0B !important; background: rgba(245, 158, 11, 0.2) !important; }
+        .thumbnail-ratio { position: relative; padding-bottom: 65%; overflow: hidden; border-radius: 12px; }
         ::-webkit-scrollbar { display: none; }
-        
-        .shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .category-icon-box {
-            position: relative;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .glow-icon { filter: drop-shadow(0 0 8px currentColor); }
+        .item-selected { border: 2px solid #F59E0B !important; background: rgba(245, 158, 11, 0.1) !important; }
     </style>
 </head>
-<body class="select-none touch-pan-y overflow-x-hidden">
+<body class="select-none">
 
-    <!-- CABECERA -->
-    <header class="glass-header sticky top-0 z-50 border-b border-white/10 px-6 py-5">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-[10px] font-black tracking-[0.3em] text-industrial uppercase">ARSA ARGENTINA</h1>
-                <p id="nav-title" class="text-xl font-extrabold text-white uppercase tracking-tight">Unidades</p>
+    <header class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur-xl border-b border-white/5 px-6 py-6">
+        <div class="max-w-2xl mx-auto flex flex-col gap-5">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-[10px] font-black tracking-[0.3em] text-industrial uppercase">ARSA ARGENTINA</h1>
+                    <p id="nav-title" class="text-xl font-black uppercase italic tracking-tighter">Unidades</p>
+                </div>
+                <div id="selection-count" class="hidden bg-industrial text-black text-[10px] font-black px-3 py-1 rounded-full shadow-lg shadow-industrial/20">
+                    0 SELECCIONADOS
+                </div>
             </div>
-            <div id="selection-badge" class="hidden bg-industrial text-black text-[10px] font-black px-3 py-1 rounded-full shadow-lg">
-                0 SELECCIONADOS
+
+            <div class="relative group">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-industrial/50 text-sm"></i>
+                <input 
+                    type="text" 
+                    id="global-search" 
+                    placeholder="Buscar motor, bomba, inyector..." 
+                    oninput="handleSearch()"
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-industrial focus:bg-white/10 transition-all text-white placeholder:text-white/20 shadow-inner"
+                >
             </div>
         </div>
     </header>
 
-    <!-- VISTA: CATEGORÍAS (UNIDADES) -->
-    <main id="view-categories" class="p-5 grid grid-cols-2 gap-5 pb-24">
-        <!-- Renderizado vía JS -->
+    <main class="max-w-2xl mx-auto p-5 pb-40">
+        <div id="view-categories" class="grid grid-cols-2 gap-4"></div>
+
+        <div id="view-gallery" class="hidden grid grid-cols-2 gap-3"></div>
+
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 opacity-30 text-center">
+            <i class="fa-solid fa-box-open text-5xl mb-4"></i>
+            <p class="text-xs font-bold uppercase tracking-widest">No se encontraron archivos</p>
+        </div>
     </main>
 
-    <!-- VISTA: GALERÍA -->
-    <main id="view-gallery" class="hidden p-4 grid grid-cols-2 gap-3 pb-40">
-        <!-- Renderizado vía JS -->
-    </main>
-
-    <!-- BOTÓN VOLVER -->
-    <button id="btn-back" onclick="goHome()" class="hidden fixed bottom-28 left-6 w-14 h-14 bg-white text-[#13223d] rounded-full shadow-2xl z-40 flex items-center justify-center active-scale transition-all border-4 border-[#13223d]">
+    <button id="btn-back" onclick="goHome()" class="hidden fixed bottom-32 left-6 w-14 h-14 bg-white text-black rounded-full shadow-2xl z-40 flex items-center justify-center active-scale border-4 border-[#0f172a]">
         <i class="fa-solid fa-arrow-left text-xl"></i>
     </button>
 
-    <!-- MODAL VISTA PREVIA -->
-    <div id="modal-preview" class="fixed inset-0 bg-[#0a1221] z-[60] hidden flex flex-col">
-        <div class="p-4 flex justify-between items-center border-b border-white/10 glass-header">
-            <span id="preview-name" class="text-xs font-bold truncate pr-4 text-gray-300 uppercase tracking-widest">Vista Previa</span>
-            <button onclick="closePreview()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white active-scale">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div id="preview-frame" class="flex-1 w-full bg-black flex flex-col items-center justify-center overflow-hidden">
-            <!-- El iframe se inyecta aquí -->
-        </div>
-        <div class="p-6 safe-bottom bg-[#13223d] border-t border-white/10 flex flex-col gap-3">
-            <button id="btn-open-external" class="w-full py-3 bg-white/10 text-white rounded-xl text-xs font-bold uppercase tracking-widest active-scale border border-white/10">
-                <i class="fa-solid fa-up-right-from-square mr-2"></i> Abrir en pantalla completa
-            </button>
-            <button id="btn-share-single" class="w-full py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale shadow-lg shadow-green-900/40 uppercase text-sm tracking-widest">
-                <i class="fa-brands fa-whatsapp text-xl"></i> Compartir archivo
-            </button>
-        </div>
-    </div>
-
-    <!-- BARRA COMPARTIR LOTE -->
-    <div id="batch-bar" class="fixed bottom-0 left-0 w-full glass-header border-t border-white/10 p-4 transform translate-y-full transition-all duration-500 z-50 safe-bottom">
-        <div class="flex gap-3">
-            <button onclick="deselectAll()" class="flex-1 py-4 bg-white/5 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-300 active-scale border border-white/10">Limpiar</button>
-            <button onclick="shareBatch()" class="flex-[2] py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-green-900/40 active-scale border border-green-500/20">
-                <i class="fa-brands fa-whatsapp text-xl"></i> ENVIAR LOTE
+    <div id="batch-bar" class="fixed bottom-0 left-0 w-full bg-[#0f172a] border-t border-white/10 p-5 transform translate-y-full transition-all duration-500 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <div class="max-w-2xl mx-auto flex gap-3">
+            <button onclick="clearSelection()" class="flex-1 py-4 bg-white/5 rounded-2xl text-[10px] font-black uppercase text-gray-400 active-scale border border-white/10">Limpiar</button>
+            <button onclick="shareViaWhatsApp()" class="flex-[3] py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale shadow-lg shadow-green-900/40 uppercase text-xs tracking-widest">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Enviar a Cliente
             </button>
         </div>
     </div>
 
     <script>
+        // BASE DE DATOS ACTUALIZADA CON TUS NOMBRES DE DRIVE
         const database = [
-            { id: 'iot', name: 'IOT', icon: 'fa-microchip', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view?usp=drive_link',
-                'https://drive.google.com/file/d/1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-/view?usp=drive_link',
-                'https://drive.google.com/file/d/1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq/view?usp=drive_link',
-                'https://drive.google.com/file/d/1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI/view?usp=drive_link',
-                'https://drive.google.com/file/d/1FttcXpKwyfjJlnf6fFBgs0TmlfPPle4d/view?usp=drive_link',
-                'https://drive.google.com/file/d/1fRreMXteAiv5Eq1SnnF73WpuZKsLAU1p/view?usp=drive_link'
+            { id: 'iny', name: 'Inyección', icon: 'fa-syringe', links: [
+                { url: 'https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view', title: 'MOTOR PAL.mp4' },
+                { url: 'https://drive.google.com/file/d/1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-/view', title: 'MERCEDES Y BOMBA.mp4' },
+                { url: 'https://drive.google.com/file/d/1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq/view', title: 'INYECTORES C13.mp4' },
+                { url: 'https://drive.google.com/file/d/1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI/view', title: 'Cat c13.mp4' },
+                { url: 'https://drive.google.com/file/d/1FttcXpKwyfjJlnf6fFBgs0TmlfPPle4d/view', title: 'Bomba OM366LA.mp4' },
+                { url: 'https://drive.google.com/file/d/1fRreMXteAiv5Eq1SnnF73WpuZKsLAU1p/view', title: 'BOMBA SCANIA.mp4' },
+                { url: 'https://drive.google.com/file/d/1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W/view', title: 'OM 906.mp4' },
+                { url: 'https://drive.google.com/file/d/1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt/view', title: 'BOMBA BOSCH.mp4' },
+                { url: 'https://drive.google.com/file/d/1asyYb_U76DcOwqf7Gyki2vF-MGG0Gbr2/view', title: 'INYECTORES CAT.mp4' },
+                { url: 'https://drive.google.com/file/d/1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN/view', title: 'BOMBA LINEAL.mp4' }
             ]},
-            { id: 'pre', name: 'PRESENTACIÓN', icon: 'fa-desktop', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1_26SzwzzAmibeq4eW4gyfyGKGNxjIA4G/view?usp=drive_link',
-                'https://drive.google.com/file/d/10TWESSwKeJME_5hdNV5rnhFAr_H8kdxc/view?usp=drive_link'
-            ]},
-            { id: 'mec', name: 'MECANIZADO', icon: 'fa-gears', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1xXrR0KRHKorjMNGSeDXD6r9IsMGZOfPy/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1QMLlOJ88ka-_SMyB2jPqNdDdxOw0mDp8/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1X3yLu-QzQiGiFSgSIox_t_90wiQghlpU/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1WrDWwU5pivPxqwjo-JJ9ACm0UwJL1EHz/view?usp=drive_link',
-                'https://drive.google.com/file/d/1QTFQQuhCgkgWHeI1F_W5jC0e5NxLSk3V/view?usp=drive_link'
-            ]},
-            { id: 'iny', name: 'INYECCIÓN', icon: 'fa-syringe', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1i84HyJxkk9gWpUr4YFU4B5CiUjwa3CEZ/view?usp=drive_link',
-                'https://drive.google.com/file/d/1j7Mnqc8LHO_gP7YtlZ4Urnhygfsq0x7z/view?usp=drive_link',
-                'https://drive.google.com/file/d/1x3AS0X9As5CDx9qgnI5lHkt8k6RYxHZA/view?usp=drive_link',
-                'https://drive.google.com/file/d/1mX0Cv0KC70glSPp-n-XyLcA8C2yO9qp_/view?usp=drive_link',
-                'https://drive.google.com/file/d/1rogJf9p46lQNO8ePpyMpxZV0xxmerqTX/view?usp=drive_link',
-                'https://drive.google.com/file/d/17Qw6N9ItDXHZGay1GFctXO4KSolC-UjI/view?usp=drive_link',
-                'https://drive.google.com/file/d/1XH9vTZ8pz42I0EG8j39urEbAijww_VBA/view?usp=drive_link',
-                'https://drive.google.com/file/d/1xb2HT1qzN2vRYpN1H6bjswAhA1QNcl-J/view?usp=drive_link',
-                'https://drive.google.com/file/d/1az4cRWzKpvHCNTYLMwwrn-Iqzp430urO/view?usp=drive_link',
-                'https://drive.google.com/file/d/1NJJKhfgMQD7CV5JKiU7rhQGvT7p4-Tf6/view?usp=drive_link',
-                'https://drive.google.com/file/d/16ZEwoTvPOPfJrGzysaz-U57BqyQnTCim/view?usp=drive_link',
-                'https://drive.google.com/file/d/1XZmVGVf9y1d17oFmOeAWevgZagPQ0j7P/view?usp=drive_link',
-                'https://drive.google.com/file/d/1HROsVNU0S8JscpzPpEvg3LncNE1KbEtu/view?usp=drive_link',
-                'https://drive.google.com/file/d/182ejPggMLUINaHoW3py9Ugos7yMG2PF2/view?usp=drive_link'
-            ]},
-            { id: 'mot', name: 'MOTORES', icon: 'fa-car-side', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1asyYb_U76DcOwqf7Gyki2vF-MGG0Gbr2/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1cWJnUTJwAD6EhHTynGY5fxnITwcuZ_P1/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1-qdAjUHceOs3_csiYv-sESjaWxsrC5Vz/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1fMuVrDDkgSGvZEMf4SnhnIGI5YqJ-OMS/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1oMINm7cVK0kXNpQ4IStPNd2EjDea2wuL/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1Ryws1xXJPiTMXHP0j-TWR2L2Ec6c9Orb/view?usp=drive_link'
-            ]},
-            { id: 'pru', name: 'BANCO PRUEBAS', icon: 'fa-gauge-high', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/10D2ShM38kSvznCh2kN1ZxnjEU_xGHib9/view?usp=drive_link', 
-                'https://drive.google.com/file/d/12h7InEX_NsVeqm7FnYogwxIwduDPmHc4/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1LC9HTnx2ZuMVCOvYzY9iqJ8GeNTxBDXz/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1T6O8B1BoVarko2GcYVFSO10IuiylW8kk/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1GffddduUGdJg5nUcm0u3ulpG41rvrYQ8/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1FWy1hCjMglZwGEtuwPmWvb0y3UJ5WY6H/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1XbuJlko3ZjvnLiK2LBkD_-QJpxZA0tT9/view?usp=drive_link',
-                'https://drive.google.com/file/d/16h7IQW8kCkcx-3TUr88THtc2YDpaPma_/view?usp=drive_link',
-                'https://drive.google.com/file/d/1Z8DQK1qlxztlJB0sQbGX-02sYrn7yrOp/view?usp=drive_link',
-                'https://drive.google.com/file/d/1ZWl3A0CcJqJLV3XtXbyDYEWkoG26pW10/view?usp=drive_link',
-                'https://drive.google.com/file/d/1c3son2iUbNnMNuqWByEmWra-U5yEFeTx/view?usp=drive_link',
-                'https://drive.google.com/file/d/1KZC_GdSCpLZdnbWB5HLSyQuxOmypE3Ct/view?usp=drive_link',
-                'https://drive.google.com/file/d/1sdzfxPWCEYVseLm4WPVyX7ONdYN-7Lnz/view?usp=drive_link',
-                'https://drive.google.com/file/d/19c2KVIr54XQyzlBgi6FLQS7MfBOVppL8/view?usp=drive_link',
-                'https://drive.google.com/file/d/11_zS20VwVr8gUChODG4ajQcLY4xhJ8p2/view?usp=drive_link',
-                'https://drive.google.com/file/d/1XaAi0n0fODm8O-fT8qOArkAy4bRJbCOA/view?usp=drive_link',
-                'https://drive.google.com/file/d/1gdDK3CnK2pn7kneG8RPoDuBRz-PVVBc5/view?usp=drive_link',
-                'https://drive.google.com/file/d/1jmYj9_9t9i6eF7oBjuMex7mc3ZP81VMK/view?usp=drive_link'
-            ]},
-            { id: 'cam', name: 'SERVICIO CAMPO', icon: 'fa-truck-fast', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/1KPD0gSDri1_68ifZBUe9CRqJThHq-xLW/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1FC8lsJBoI0_bsFsD_1RvcX4lmpkYIOpb/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1drO689g-qnk-iGRAmi61T9Lnv5bHJZrh/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1Sg8-3AFC7udcb-REJ6ZdpmBfM4q-YXtm/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1W28Jzuqcg5DdSCdiGfg6HFpLWV4eRu6j/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1j_VdCS8tyKwOa_FWTZe-eTltFR0mLAK6/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1B1jijLQvudN4nXnHwmn13MbW5l8DCUhi/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1bAEV5Ldb4UV4WbKqbFNb_2JDTZtb6t-A/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1S5eAjaS1x5pKM7MQExiVnrGw3wKhv1H2/view?usp=drive_link',
-                'https://drive.google.com/file/d/1L6E2GD1FKeKjHB2tvZEjFYpnjipKoV9m/view?usp=drive_link',
-                'https://drive.google.com/file/d/1JPFEyLwyNAuVy09BqmIRlvUghT3r9vo6/view?usp=drive_link',
-                'https://drive.google.com/file/d/1THDU7Y3VkL-EYzy1GDeLUYsDsiVIy2pQ/view?usp=drive_link'
-            ]},
-            { id: 'gen', name: 'GENERACIÓN', icon: 'fa-bolt', color: '#FFFFFF', links: [
-                'https://drive.google.com/file/d/14cDIUl1CvVxjZiIFE6V8xiArhjG054oZ/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1BD4vgEqIM57it5S1NSBXiOODO0LjEkfF/view?usp=drive_link', 
-                'https://drive.google.com/file/d/14Fj_Us4hsY89wF31fXpTj8XwkSMqPrM1/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1w7MlOyvk0190aJNBbCjA_sQuFEuLo6ma/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1SURH4H7cyp1oMSbIjXL4e7pM2efOeeCM/view?usp=drive_link', 
-                'https://drive.google.com/file/d/17AGdm9PafapBFlqwaRkxVhkG73DWOWof/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1FzVpEBb39fAqaJg3qk8nIRl7RAv9XuDb/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1EqE7x2RjBRUqEkmNQDx8j3dnNOALfWOf/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1yHX8992NNTw8LNqY5j7s-045w_ClJxCj/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1L_IZ3CMFAEvAFBRK0DNgKoGN1OgN6pGf/view?usp=drive_link', 
-                'https://drive.google.com/file/d/19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1paKrGHBdTs7GaUyz4SgFFGlSN0sM_rmP/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1KoX7vrxbmz5hIAO41fa4hT1JSXGTiObC/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1rv2KWPttkFslysQGe4g2Gx1apRoQ6AoU/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1ML2d2xWIhIB8D__RiTU-9mQa_E7ieBY4/view?usp=drive_link', 
-                'https://drive.google.com/file/d/1YJ1NIqhwPigxRZHOwnlfOYgoqd1V41ab/view?usp=drive_link', 
-                'https://drive.google.com/file/d/182ejPggMLUINaHoW3py9Ugos7yMG2PF2/view?usp=drive_link',
-                'https://drive.google.com/file/d/1FVbnrDfn8Rxt1V9l99ptg4q9zatmN7kF/view?usp=drive_link'
+            { id: 'mot', name: 'Motores', icon: 'fa-car-side', links: [
+                { url: 'https://drive.google.com/file/d/1BD4vgEqIM57it5S1NSBXiOODO0LjEkfF/view', title: 'SCANIA V8 TEST.mp4' }
             ]}
         ];
 
         let selectedItems = new Set();
-        function getDriveId(url) { 
-            const match = url.match(/[-\w]{25,}/); 
-            return match ? match[0] : null; 
-        }
+        let currentView = 'home';
 
+        // Renderizar Carpetas en el Home
         function renderHome() {
             const container = document.getElementById('view-categories');
             container.innerHTML = '';
             database.forEach(cat => {
                 const div = document.createElement('div');
-                div.className = 'active-scale glass-card rounded-[2rem] p-6 flex flex-col items-center justify-center text-center gap-4 active:bg-white/20 transition-all';
-                div.onclick = () => showCategory(cat.id);
+                div.className = 'active-scale glass rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center gap-4 cursor-pointer';
+                div.onclick = () => openSection(cat.id);
                 div.innerHTML = `
-                    <div class="category-icon-box">
-                        <i class="fa-solid ${cat.icon} text-2xl glow-icon text-white"></i>
+                    <div class="w-16 h-16 rounded-full bg-industrial/10 flex items-center justify-center text-industrial">
+                        <i class="fa-solid ${cat.icon} text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-[11px] font-extrabold uppercase tracking-widest text-white">${cat.name}</h2>
-                        <p class="text-[9px] text-white/50 mt-1 font-bold uppercase tracking-tighter">${cat.links.length} ELEMENTOS</p>
+                        <h3 class="text-[11px] font-black uppercase tracking-widest">${cat.name}</h3>
+                        <p class="text-[9px] opacity-40 font-bold mt-1">${cat.links.length} ELEMENTOS</p>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        function showCategory(id) {
+        // Abrir una sección específica
+        function openSection(id) {
             const cat = database.find(c => c.id === id);
+            currentView = id;
             document.getElementById('nav-title').innerText = cat.name;
             document.getElementById('view-categories').classList.add('hidden');
             document.getElementById('view-gallery').classList.remove('hidden');
             document.getElementById('btn-back').classList.remove('hidden');
+            renderGallery(cat.links);
+        }
+
+        // Buscador Global Integrado
+        function handleSearch() {
+            const query = document.getElementById('global-search').value.toLowerCase().trim();
+            const emptyState = document.getElementById('empty-state');
+            
+            if (query === '') {
+                if (currentView === 'home') goHome(); else openSection(currentView);
+                return;
+            }
+
+            let results = [];
+            database.forEach(cat => {
+                const matches = cat.links.filter(link => 
+                    link.title.toLowerCase().includes(query) || 
+                    cat.name.toLowerCase().includes(query)
+                );
+                matches.forEach(m => results.push({...m, catName: cat.name}));
+            });
+
+            document.getElementById('view-categories').classList.add('hidden');
+            document.getElementById('view-gallery').classList.remove('hidden');
+            document.getElementById('btn-back').classList.remove('hidden');
+            document.getElementById('nav-title').innerText = "Resultados";
+
+            if (results.length === 0) {
+                emptyState.classList.remove('hidden');
+                document.getElementById('view-gallery').innerHTML = '';
+            } else {
+                emptyState.classList.add('hidden');
+                renderGallery(results);
+            }
+        }
+
+        // Renderizar los archivos en cuadrícula
+        function renderGallery(items) {
             const container = document.getElementById('view-gallery');
             container.innerHTML = '';
-            cat.links.forEach((link, idx) => {
-                const fileId = getDriveId(link);
-                const isSelected = selectedItems.has(link);
+            items.forEach((item, idx) => {
+                const isSelected = selectedItems.has(item.url);
+                const driveId = item.url.match(/[-\w]{25,}/);
+                const thumb = driveId ? `https://lh3.googleusercontent.com/d/${driveId}=w400` : '';
+                
                 const card = document.createElement('div');
-                card.className = `active-scale relative glass-card rounded-2xl overflow-hidden p-2 shadow-lg ${isSelected ? 'item-selected' : ''}`;
-                const thumbUrl = `https://lh3.googleusercontent.com/d/${fileId}=w600`;
+                card.className = `active-scale glass rounded-3xl p-2 transition-all ${isSelected ? 'item-selected' : ''}`;
                 card.innerHTML = `
-                    <div class="thumbnail-container relative bg-black/40 rounded-xl overflow-hidden mb-2 shimmer" onclick="openPreview('${link}')">
-                        <img src="${thumbUrl}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.style.opacity='1'; this.parentElement.classList.remove('shimmer')" onerror="handleImageError(this)">
-                        <div class="absolute inset-0 flex items-center justify-center bg-black/10"><i class="fa-solid fa-play text-white text-xs bg-[#13223d]/60 p-2 rounded-full backdrop-blur-md"></i></div>
+                    <div class="thumbnail-ratio bg-black/40 mb-3" onclick="window.open('${item.url}', '_blank')">
+                        <img src="${thumb}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/13223d/white?text=ARSA+VIDEO'">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                            <i class="fa-solid fa-play text-white/50 text-xs"></i>
+                        </div>
                     </div>
-                    <div class="flex justify-between items-center px-1">
-                        <span class="text-[9px] font-black text-white/40 uppercase tracking-tighter italic">Ref-${idx + 1}</span>
-                        <button onclick="event.stopPropagation(); toggleSelect('${link}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all border border-white/10"><i class="fa-solid fa-check text-xs"></i></button>
+                    <div class="px-2 pb-2">
+                        <h4 class="text-[10px] font-bold uppercase truncate leading-tight">${item.title}</h4>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-[8px] font-black text-industrial uppercase tracking-tighter">${item.catName || ''}</span>
+                            <button onclick="toggleSelect('${item.url}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all">
+                                <i class="fa-solid fa-check text-[10px]"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        function handleImageError(img) {
-            img.parentElement.classList.remove('shimmer');
-            img.parentElement.innerHTML += `<div class="absolute inset-0 flex flex-col items-center justify-center gap-2"><i class="fa-solid fa-file-video text-2xl text-white/40"></i><span class="text-[7px] font-bold text-white/40 uppercase tracking-widest text-center px-2">Video/Imagen en Drive</span></div>`;
+        function toggleSelect(url, btn) {
+            if (selectedItems.has(url)) selectedItems.delete(url);
+            else selectedItems.add(url);
+            
+            const badge = document.getElementById('selection-count');
+            const bar = document.getElementById('batch-bar');
+            badge.innerText = `${selectedItems.size} SELECCIONADOS`;
+            
+            if (selectedItems.size > 0) {
+                badge.classList.remove('hidden');
+                bar.classList.remove('translate-y-full');
+            } else {
+                badge.classList.add('hidden');
+                bar.classList.add('translate-y-full');
+            }
+            
+            // Refrescar visualmente la tarjeta
+            btn.closest('.glass').classList.toggle('item-selected');
+            btn.className = `w-8 h-8 rounded-xl ${selectedItems.has(url) ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all`;
         }
 
         function goHome() {
-            document.getElementById('nav-title').innerText = 'Unidades';
+            currentView = 'home';
+            document.getElementById('global-search').value = '';
+            document.getElementById('nav-title').innerText = "Unidades";
             document.getElementById('view-categories').classList.remove('hidden');
             document.getElementById('view-gallery').classList.add('hidden');
             document.getElementById('btn-back').classList.add('hidden');
-            window.scrollTo(0,0);
+            document.getElementById('empty-state').classList.add('hidden');
+            renderHome();
         }
 
-        function toggleSelect(link, btn) {
-            if (selectedItems.has(link)) selectedItems.delete(link); else selectedItems.add(link);
-            updateSelectionUI();
-            const card = btn.closest('.active-scale');
-            if (selectedItems.has(link)) { card.classList.add('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-industrial text-black flex items-center justify-center transition-all border border-white/10'; } 
-            else { card.classList.remove('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-white/10 text-white flex items-center justify-center transition-all border border-white/10'; }
+        function clearSelection() {
+            selectedItems.clear();
+            toggleSelect(null, null); // Forzar actualización de UI
+            if (currentView === 'home') renderHome(); else openSection(currentView);
         }
 
-        function updateSelectionUI() {
-            const badge = document.getElementById('selection-badge');
-            const bar = document.getElementById('batch-bar');
-            if (selectedItems.size > 0) { badge.innerText = `${selectedItems.size} SELECCIONADOS`; badge.classList.remove('hidden'); bar.classList.remove('translate-y-full'); } 
-            else { badge.classList.add('hidden'); bar.classList.add('translate-y-full'); }
+        function shareViaWhatsApp() {
+            let msg = "*Material solicitado - ARSA ARGENTINA*%0A%0A";
+            Array.from(selectedItems).forEach((url, i) => {
+                msg += `🔹 *Archivo ${i+1}:* ${url}%0A%0A`;
+            });
+            window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
         }
 
-        function openPreview(link) {
-            const modal = document.getElementById('modal-preview');
-            const frame = document.getElementById('preview-frame');
-            const fileId = getDriveId(link);
-            
-            // Usamos el visor de Google Drive para mayor compatibilidad
-            const previewUrl = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
-            
-            frame.innerHTML = `<iframe src="${previewUrl}" class="w-full h-full border-none" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-            
-            document.getElementById('btn-open-external').onclick = () => window.open(link, '_blank');
-            document.getElementById('btn-share-single').onclick = () => shareViaWhatsApp([link]);
-            modal.classList.remove('hidden');
-        }
-
-        function closePreview() { 
-            document.getElementById('modal-preview').classList.add('hidden'); 
-            document.getElementById('preview-frame').innerHTML = ''; 
-        }
-
-        function deselectAll() { 
-            selectedItems.clear(); 
-            updateSelectionUI(); 
-            const currentCatName = document.getElementById('nav-title').innerText; 
-            const cat = database.find(c => c.name === currentCatName); 
-            if (cat) showCategory(cat.id); 
-        }
-
-        function shareViaWhatsApp(links) {
-            let message = "*Material Industrial Solicitado:* \n\n";
-            links.forEach((l, i) => { message += `🔹 *Archivo ${i+1}:* ${l}\n\n`; });
-            message += "----------------------------\n📍 *ARSA ARGENTINA*\n🌐 www.arsa.ar\n📸 @arsaargentina";
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function shareBatch() { shareViaWhatsApp(Array.from(selectedItems)); }
-        
-        // Carga inicial
+        // Inicializar
         renderHome();
     </script>
 </body>
