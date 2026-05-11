@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ARSA ARGENTINA - Unidades</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        industrial: '#F59E0B',
+                        arsaAzul: '#13223d',
+                        arsaGlass: 'rgba(255, 255, 255, 0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #13223d; color: #FFFFFF; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        .glass-card { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glass-header { background: rgba(19, 34, 61, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .active-scale:active { transform: scale(0.96); transition: 0.1s; }
+        .thumbnail-container::after { content: ""; display: block; padding-bottom: 75%; }
+        .item-selected { border: 2px solid #F59E0B !important; background: rgba(245, 158, 11, 0.2) !important; }
+        ::-webkit-scrollbar { display: none; }
+        .shimmer { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .category-icon-box { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+        .glow-icon { filter: drop-shadow(0 0 8px currentColor); }
+    </style>
+</head>
+<body class="select-none touch-pan-y overflow-x-hidden">
+
+    <header class="glass-header sticky top-0 z-50 border-b border-white/10 px-6 py-5">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-[10px] font-black tracking-[0.3em] text-industrial uppercase">ARSA ARGENTINA</h1>
+                <p id="nav-title" class="text-xl font-extrabold text-white uppercase tracking-tight">Unidades</p>
+            </div>
+            <div id="selection-badge" class="hidden bg-industrial text-black text-[10px] font-black px-3 py-1 rounded-full shadow-lg">0 SELECCIONADOS</div>
+        </div>
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/30 text-xs"></i>
+            <input type="text" id="global-search" oninput="handleSearch()" placeholder="BUSCAR ARCHIVO..." 
+                class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-[10px] font-bold tracking-widest uppercase focus:outline-none focus:border-industrial transition-all">
+        </div>
+    </header>
+
+    <main id="view-categories" class="p-5 grid grid-cols-2 gap-5 pb-24"></main>
+    <main id="view-gallery" class="hidden p-4 grid grid-cols-2 gap-3 pb-40"></main>
+
+    <button id="btn-back" onclick="goHome()" class="hidden fixed bottom-28 left-6 w-14 h-14 bg-white text-[#13223d] rounded-full shadow-2xl z-40 flex items-center justify-center active-scale border-4 border-[#13223d]">
+        <i class="fa-solid fa-arrow-left text-xl"></i>
+    </button>
+
+    <div id="modal-preview" class="fixed inset-0 bg-[#0a1221] z-[60] hidden flex flex-col">
+        <div class="p-4 flex justify-between items-center border-b border-white/10 glass-header">
+            <span id="preview-name" class="text-[10px] font-bold truncate pr-4 text-gray-300 uppercase tracking-widest italic">Archivo</span>
+            <button onclick="closePreview()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white active-scale"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="preview-frame" class="flex-1 w-full bg-black flex flex-col items-center justify-center overflow-hidden"></div>
+        <div class="p-6 safe-bottom bg-[#13223d] border-t border-white/10 flex flex-col gap-3">
+            <button id="btn-open-external" class="w-full py-3 bg-white/10 text-white rounded-xl text-xs font-bold uppercase tracking-widest active-scale border border-white/10">Abrir en pantalla completa</button>
+            <button id="btn-share-single" class="w-full py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale shadow-lg uppercase text-sm tracking-widest"><i class="fa-brands fa-whatsapp"></i> Compartir archivo</button>
+        </div>
+    </div>
+
+    <div id="batch-bar" class="fixed bottom-0 left-0 w-full glass-header border-t border-white/10 p-4 transform translate-y-full transition-all duration-500 z-50 safe-bottom">
+        <div class="flex gap-3">
+            <button onclick="deselectAll()" class="flex-1 py-4 bg-white/5 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-gray-300 active-scale border border-white/10">Limpiar</button>
+            <button onclick="shareBatch()" class="flex-[2] py-4 bg-green-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 active-scale border border-green-500/20">
+                <i class="fa-brands fa-whatsapp"></i> ENVIAR LOTE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let database = [];
+        let fileNames = {};
+
+        async function initApp() {
+            try {
+                const res = await fetch('./data.json');
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                database = data.database;
+                fileNames = data.fileNames;
+                renderHome();
+            } catch (err) {
+                document.body.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#13223d;color:#fff;font-family:sans-serif;gap:16px;padding:24px;text-align:center;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size:2.5rem;color:#F59E0B;"></i>
+                        <p style="font-size:1rem;font-weight:800;letter-spacing:.1em;">NO SE PUDO CARGAR LA BASE DE DATOS</p>
+                        <p style="font-size:.75rem;color:rgba(255,255,255,.5);">Verificá que el archivo <strong>data.json</strong> esté en la misma carpeta y que estés usando un servidor local.</p>
+                        <p style="font-size:.65rem;color:rgba(255,255,255,.3);">Error: ${err.message}</p>
+                        <button onclick="location.reload()" style="margin-top:8px;padding:12px 28px;background:#F59E0B;color:#13223d;border:none;border-radius:12px;font-weight:800;font-size:.8rem;letter-spacing:.1em;cursor:pointer;">REINTENTAR</button>
+                    </div>`;
+            }
+        }
+
+        function getFileName(url) {
+            const id = getDriveId(url);
+            return id && fileNames[id] ? fileNames[id] : 'Archivo';
+        }
+
+        let selectedItems = new Set();
+        let currentCategoryId = null;
+        function getDriveId(url) { const match = url.match(/[-\w]{25,}/); return match ? match[0] : null; }
+
+        function renderHome() {
+            const container = document.getElementById('view-categories');
+            container.innerHTML = '';
+            database.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'active-scale glass-card rounded-[2rem] p-6 flex flex-col items-center justify-center text-center gap-4 transition-all';
+                div.onclick = () => showCategory(cat.id);
+                div.innerHTML = `<div class="category-icon-box"><i class="fa-solid ${cat.icon} text-2xl glow-icon text-white"></i></div>
+                    <div><h2 class="text-[11px] font-extrabold uppercase tracking-widest text-white">${cat.name}</h2>
+                    <p class="text-[9px] text-white/50 mt-1 font-bold uppercase tracking-tighter">${cat.links.length} ELEMENTOS</p></div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function showCategory(id) {
+            const cat = database.find(c => c.id === id);
+            currentCategoryId = id;
+            renderGallery(cat.links.map((link) => ({ url: link, title: getFileName(link) })), cat.name);
+            document.getElementById('view-categories').classList.add('hidden');
+            document.getElementById('view-gallery').classList.remove('hidden');
+            document.getElementById('btn-back').classList.remove('hidden');
+        }
+
+        function renderGallery(items, title) {
+            document.getElementById('nav-title').innerText = title;
+            const container = document.getElementById('view-gallery');
+            container.innerHTML = '';
+            items.forEach(item => {
+                const fileId = getDriveId(item.url);
+                const isSelected = selectedItems.has(item.url);
+                const card = document.createElement('div');
+                card.className = `active-scale relative glass-card rounded-2xl overflow-hidden p-2 shadow-lg ${isSelected ? 'item-selected' : ''}`;
+                const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
+                const cardId = 'card-' + fileId;
+                card.innerHTML = `
+                    <div class="thumbnail-container relative rounded-xl overflow-hidden mb-2" onclick="openPreview('${item.url}', '${item.title}')">
+                        <div id="${cardId}-bg" class="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                             style="background: linear-gradient(135deg, #0f1c33 0%, #1e3a5f 50%, #0f1c33 100%);">
+                            <div class="w-12 h-12 rounded-full bg-industrial/20 border border-industrial/40 flex items-center justify-center">
+                                <i class="fa-solid fa-play text-industrial text-base ml-1"></i>
+                            </div>
+                            <span class="text-[7px] font-black text-white/40 uppercase tracking-widest text-center px-2 leading-tight">${item.title}</span>
+                        </div>
+                        <img id="${cardId}-img" src="${thumbUrl}"
+                             class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                             onload="arsaThumbLoad(this)"
+                             onerror="this.style.display='none';">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                                <i class="fa-solid fa-play text-white text-xs ml-0.5"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center px-1">
+                        <span class="text-[8px] font-black text-white/80 uppercase tracking-tighter italic truncate w-24">${item.title}</span>
+                        <button onclick="event.stopPropagation(); toggleSelect('${item.url}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all border border-white/10"><i class="fa-solid fa-check text-xs"></i></button>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function arsaThumbLoad(img) {
+            // Verifica que la imagen tiene dimensiones reales (no es una página de login/redirección)
+            if (img.naturalWidth > 50 && img.naturalHeight > 50) {
+                img.style.opacity = '1';
+            } else {
+                img.style.display = 'none';
+            }
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('global-search').value.toLowerCase().trim();
+            if (!q) {
+                if (currentCategoryId) {
+                    showCategory(currentCategoryId);
+                } else {
+                    goHome();
+                }
+                return;
+            }
+            let res = [];
+            let label = '';
+            if (currentCategoryId) {
+                const cat = database.find(c => c.id === currentCategoryId);
+                cat.links.forEach(link => {
+                    if (getFileName(link).toLowerCase().includes(q)) res.push({ url: link, title: getFileName(link) });
+                });
+                label = `RESULTADOS EN ${cat.name.toUpperCase()}`;
+            } else {
+                database.forEach(cat => cat.links.forEach(link => {
+                    const name = getFileName(link).toLowerCase();
+                    if (name.includes(q) || cat.name.toLowerCase().includes(q)) res.push({ url: link, title: getFileName(link) });
+                }));
+                label = 'RESULTADOS GLOBALES';
+            }
+            renderGallery(res, label);
+            document.getElementById('view-categories').classList.add('hidden');
+            document.getElementById('view-gallery').classList.remove('hidden');
+            document.getElementById('btn-back').classList.remove('hidden');
+        }
+
+        function handleImageError(img) { img.parentElement.classList.remove('shimmer'); img.parentElement.innerHTML += `<div class="absolute inset-0 flex flex-col items-center justify-center gap-2"><i class="fa-solid fa-file-video text-2xl text-white/40"></i><span class="text-[7px] font-bold text-white/40 uppercase">Video</span></div>`; }
+
+        function goHome() {
+            currentCategoryId = null;
+            document.getElementById('global-search').value = "";
+            document.getElementById('nav-title').innerText = 'Unidades';
+            document.getElementById('view-categories').classList.remove('hidden');
+            document.getElementById('view-gallery').classList.add('hidden');
+            document.getElementById('btn-back').classList.add('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function toggleSelect(url, btn) {
+            if (selectedItems.has(url)) selectedItems.delete(url); else selectedItems.add(url);
+            updateSelectionUI();
+            const card = btn.closest('.active-scale');
+            if (selectedItems.has(url)) { card.classList.add('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-industrial text-black flex items-center justify-center transition-all border border-white/10'; } 
+            else { card.classList.remove('item-selected'); btn.className = 'w-8 h-8 rounded-xl bg-white10 text-white flex items-center justify-center transition-all border border-white/10'; }
+        }
+
+        function updateSelectionUI() {
+            const badge = document.getElementById('selection-badge');
+            const bar = document.getElementById('batch-bar');
+            if (selectedItems.size > 0) { badge.innerText = `${selectedItems.size} SELECCIONADOS`; badge.classList.remove('hidden'); bar.classList.remove('translate-y-full'); } 
+            else { badge.classList.add('hidden'); bar.classList.add('translate-y-full'); }
+        }
+
+        function openPreview(url, title) {
+            const modal = document.getElementById('modal-preview');
+            const frame = document.getElementById('preview-frame');
+            const fileId = getDriveId(url);
+            document.getElementById('preview-name').innerText = title;
+            frame.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" class="w-full h-full border-none" allow="autoplay"></iframe>`;
+            document.getElementById('btn-open-external').onclick = () => window.open(url, '_blank');
+            document.getElementById('btn-share-single').onclick = () => shareViaWhatsApp([url]);
+            modal.classList.remove('hidden');
+        }
+
+        function closePreview() { document.getElementById('modal-preview').classList.add('hidden'); document.getElementById('preview-frame').innerHTML = ''; }
+        function deselectAll() { selectedItems.clear(); updateSelectionUI(); goHome(); }
+        function shareViaWhatsApp(links) {
+            let msg = "Material Industrial Solicitado \n\n";
+            links.forEach((l, i) => { msg += `🔹 ${getFileName(l)}: ${l}\n\n`; });
+            msg += "----------------------------\n📍 ARSA ARGENTINA\n🌐 www.arsa.ar";
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+        function shareBatch() { shareViaWhatsApp(Array.from(selectedItems)); }
+        initApp();
+    </script>
+</body>
+</html>
