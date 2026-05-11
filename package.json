@@ -1,0 +1,12 @@
+{
+  "name": "arsa-buscador-multimedia",
+  "version": "1.0.0",
+  "description": "ARSA Argentina — Buscador multimedia con sincronización a Google Drive",
+  "private": true,
+  "scripts": {
+    "sync-drive": "node scripts/sync-drive.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
