@@ -34,7 +34,6 @@
         "https://drive.google.com/file/d/1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt/view?usp=drive_link",
         "https://drive.google.com/file/d/1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN/view?usp=drive_link",
         "https://drive.google.com/file/d/1cWJnUTJwAD6EhHTynGY5fxnITwcuZ_P1/view?usp=drive_link",
-        "https://drive.google.com/file/d/1FEyyC1abt_vx3kraOyQbucJNvtHREKHe/view?usp=drive_link",
         "https://drive.google.com/file/d/1fMuVrDDkgSGvZEMf4SnhnIGI5YqJ-OMS/view?usp=drive_link",
         "https://drive.google.com/file/d/1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W/view?usp=drive_link",
         "https://drive.google.com/file/d/1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg/view?usp=drive_link"
@@ -148,7 +147,11 @@
         "https://drive.google.com/file/d/1FVbnrDfn8Rxt1V9l99ptg4q9zatmN7kF/view?usp=drive_link",
         "https://drive.google.com/file/d/1ML2d2xWIhIB8D__RiTU-9mQa_E7ieBY4/view?usp=drive_link",
         "https://drive.google.com/file/d/1paKrGHBdTs7GaUyz4SgFFGlSN0sM_rmP/view?usp=drive_link",
-        "https://drive.google.com/file/d/19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ/view?usp=drive_link"
+        "https://drive.google.com/file/d/19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ/view?usp=drive_link",
+        "https://drive.google.com/file/d/10wn_ZXoZSALEnnm0oRByC18t55SYWQaz/view?usp=drive_link",
+        "https://drive.google.com/file/d/1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-/view?usp=drive_link",
+        "https://drive.google.com/file/d/10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS/view?usp=drive_link",
+        "https://drive.google.com/file/d/1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E/view?usp=drive_link"
       ]
     }
   ],
@@ -175,7 +178,6 @@
     "1KF62hlOQfzoqI6QEtjt4Io0LuAMCwUrt": "DEUTZ-F3L912-3",
     "1yBN9cKo0qJK6DRDMvpInBD_u4U7nf0HN": "DEUTZ-F3L912",
     "1cWJnUTJwAD6EhHTynGY5fxnITwcuZ_P1": "DEUTZ",
-    "1FEyyC1abt_vx3kraOyQbucJNvtHREKHe": "IMG_2934",
     "1fMuVrDDkgSGvZEMf4SnhnIGI5YqJ-OMS": "MWM-INTERNACIONAL",
     "1pBnFFicQSnTbxVSBJDRW1X4y4n8_9r5W": "OM-651",
     "1SltWH13S5VLbMCfPsJtzXAwyEblT5jxg": "PERKINS-6FASEII",
@@ -247,6 +249,10 @@
     "1FVbnrDfn8Rxt1V9l99ptg4q9zatmN7kF": "GeneracionMonitoreo-1",
     "1ML2d2xWIhIB8D__RiTU-9mQa_E7ieBY4": "GeneracionMonitoreo-2",
     "1paKrGHBdTs7GaUyz4SgFFGlSN0sM_rmP": "GeneracionMonitoreo-3",
-    "19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ": "GeneracionMonitoreo-4"
+    "19_QKS6uYqBrDLGZ2AZWoL8G6HOksMqdQ": "GeneracionMonitoreo-4",
+    "10wn_ZXoZSALEnnm0oRByC18t55SYWQaz": "Generadores-Alquiler",
+    "1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-": "Generadores-Alquiler2",
+    "10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS": "Generadores-Alquiler3",
+    "1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E": "Generadores-Alquiler4"
   }
 }
