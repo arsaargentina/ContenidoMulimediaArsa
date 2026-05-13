@@ -33,6 +33,7 @@
         ::-webkit-scrollbar { display: none; }
         .shimmer { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
         @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .img-loaded { filter: brightness(1.1) contrast(1.1); }
         .category-icon-box { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
         .glow-icon { filter: drop-shadow(0 0 8px currentColor); }
     </style>
@@ -147,11 +148,11 @@
                 const isSelected = selectedItems.has(item.url);
                 const card = document.createElement('div');
                 card.className = `active-scale relative glass-card rounded-2xl overflow-hidden p-2 shadow-lg ${isSelected ? 'item-selected' : ''}`;
-                const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
+                const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s800-rw`;
                 const cardId = 'card-' + fileId;
                 card.innerHTML = `
                     <div class="thumbnail-container relative rounded-xl overflow-hidden mb-2" onclick="openPreview('${item.url}', '${item.title}')">
-                        <div id="${cardId}-bg" class="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                        <div id="${cardId}-bg" class="absolute inset-0 flex flex-col items-center justify-center gap-2 shimmer"
                              style="background: linear-gradient(135deg, #0f1c33 0%, #1e3a5f 50%, #0f1c33 100%);">
                             <div class="w-12 h-12 rounded-full bg-industrial/20 border border-industrial/40 flex items-center justify-center">
                                 <i class="fa-solid fa-play text-industrial text-base ml-1"></i>
@@ -161,10 +162,10 @@
                         <img id="${cardId}-img" src="${thumbUrl}"
                              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
                              onload="arsaThumbLoad(this)"
-                             onerror="this.style.display='none';">
+                             onerror="arsaThumbError(this, '${cardId}-bg')">
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-                                <i class="fa-solid fa-play text-white text-xs ml-0.5"></i>
+                            <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:1.5px solid rgba(255,255,255,0.25);">
+                                <i class="fa-solid fa-play text-white text-lg ml-1"></i>
                             </div>
                         </div>
                     </div>
@@ -177,11 +178,23 @@
         }
 
         function arsaThumbLoad(img) {
-            // Verifica que la imagen tiene dimensiones reales (no es una página de login/redirección)
             if (img.naturalWidth > 50 && img.naturalHeight > 50) {
+                img.classList.add('img-loaded');
                 img.style.opacity = '1';
+                const bgId = img.id.replace('-img', '-bg');
+                const bg = document.getElementById(bgId);
+                if (bg) bg.classList.remove('shimmer');
             } else {
-                img.style.display = 'none';
+                arsaThumbError(img, img.id.replace('-img', '-bg'));
+            }
+        }
+
+        function arsaThumbError(img, bgId) {
+            img.style.display = 'none';
+            const bg = document.getElementById(bgId);
+            if (bg) {
+                bg.classList.remove('shimmer');
+                bg.style.background = 'linear-gradient(45deg, rgba(19,34,61,0.95) 0%, rgba(30,58,95,0.8) 60%, rgba(245,158,11,0.15) 100%)';
             }
         }
 
