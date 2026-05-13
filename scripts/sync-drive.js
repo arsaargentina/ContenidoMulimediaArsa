@@ -23,16 +23,10 @@ const DATA_JSON_PATH = path.join(__dirname, '..', 'data.json');
 // El campo "match" lista variantes normalizadas que se aceptan desde Drive.
 const CANONICAL_CATEGORIES = [
   {
-    id: 'iny',
-    name: 'INYECCIÓN',
-    icon: 'fa-syringe',
-    match: ['inyeccion', 'inyección', 'inyectores'],
-  },
-  {
-    id: 'mot',
-    name: 'MOTORES',
-    icon: 'fa-car-side',
-    match: ['motores', 'motor'],
+    id: 'pre',
+    name: 'PRESENTACIÓN',
+    icon: 'fa-desktop',
+    match: ['presentacion', 'presentación', 'presentaciones'],
   },
   {
     id: 'iot',
@@ -41,10 +35,22 @@ const CANONICAL_CATEGORIES = [
     match: ['iot'],
   },
   {
-    id: 'pre',
-    name: 'PRESENTACIÓN',
-    icon: 'fa-desktop',
-    match: ['presentacion', 'presentación', 'presentaciones'],
+    id: 'cam',
+    name: 'SERVICIO CAMPO',
+    icon: 'fa-truck-fast',
+    match: ['servicio campo', 'servicio a campo', 'campo'],
+  },
+  {
+    id: 'iny',
+    name: 'INYECCIÓN',
+    icon: 'fa-syringe',
+    match: ['inyeccion', 'inyección', 'inyectores'],
+  },
+  {
+    id: 'tur',
+    name: 'TURBO',
+    icon: 'fa-wind',
+    match: ['turbo', 'turbos', 'turbocompresor', 'turbocompresores'],
   },
   {
     id: 'mec',
@@ -53,16 +59,16 @@ const CANONICAL_CATEGORIES = [
     match: ['mecanizado', 'mecanizados'],
   },
   {
+    id: 'mot',
+    name: 'MOTORES',
+    icon: 'fa-car-side',
+    match: ['motores', 'motor'],
+  },
+  {
     id: 'pru',
     name: 'BANCO PRUEBAS',
     icon: 'fa-gauge-high',
     match: ['banco pruebas', 'banco de pruebas', 'pruebas', 'banco'],
-  },
-  {
-    id: 'cam',
-    name: 'SERVICIO CAMPO',
-    icon: 'fa-truck-fast',
-    match: ['servicio campo', 'servicio a campo', 'campo'],
   },
   {
     id: 'gen',
