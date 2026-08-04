@@ -75,6 +75,11 @@ const CANONICAL_CATEGORIES = [
     name: 'GENERACIÓN',
     icon: 'fa-bolt',
     match: ['generacion', 'generación', 'generadores', 'generador'],
+  },{
+    id: 'deb',
+    name: 'DE-BUG',
+    icon: 'fa-oil-can',
+    match: ['de-bug', 'debug', 'de bug'],
   },
 ];
 
