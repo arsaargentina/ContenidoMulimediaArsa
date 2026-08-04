@@ -39,6 +39,7 @@
         "https://drive.google.com/file/d/1ignCBoRJGQo52LTrguNZhXL3sY-_IuOw/view?usp=drive_link",
         "https://drive.google.com/file/d/1QHtxRwpdMQJ_doosq89y2QSbnnUTlAq9/view?usp=drive_link",
         "https://drive.google.com/file/d/12N25muXNmh7SWdnQdu9tK4ayPQ0FbmzI/view?usp=drive_link",
+        "https://drive.google.com/file/d/1KOJwwc05nTdEBPpUS49xEkme7R71s_rc/view?usp=drive_link",
         "https://drive.google.com/file/d/1drO689g-qnk-iGRAmi61T9Lnv5bHJZrh/view?usp=drive_link",
         "https://drive.google.com/file/d/1Sg8-3AFC7udcb-REJ6ZdpmBfM4q-YXtm/view?usp=drive_link",
         "https://drive.google.com/file/d/1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5/view?usp=drive_link",
@@ -268,6 +269,20 @@
         "https://drive.google.com/file/d/10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS/view?usp=drive_link",
         "https://drive.google.com/file/d/1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E/view?usp=drive_link"
       ]
+    },
+    {
+      "id": "deb",
+      "name": "DE-BUG",
+      "icon": "fa-oil-can",
+      "links": [
+        "https://drive.google.com/file/d/1pbGHx0whgX22I1VU98I7kb9wQIa1etPF/view?usp=drive_link",
+        "https://drive.google.com/file/d/127RAlF6LEpF_t65d2p37KUkZ7p_M7P4V/view?usp=drive_link",
+        "https://drive.google.com/file/d/1bOlLyDKcdRaN8kwuOtsT84m-RJWcPnex/view?usp=drive_link",
+        "https://drive.google.com/file/d/1vPzbQl536KjVyDEaXBZ1pnh7x0AelB5l/view?usp=drive_link",
+        "https://drive.google.com/file/d/1GWOb5sRV6V0rvdh-T5vqg2kJM0JP_cck/view?usp=drive_link",
+        "https://drive.google.com/file/d/122Uv-cgyekwEsjo8S2Qra8CusJV3uu57/view?usp=drive_link",
+        "https://drive.google.com/file/d/1yiLlB6eAS6oEOf93qNGCIuwOKy2y73aU/view?usp=drive_link"
+      ]
     }
   ],
   "fileNames": {
@@ -291,6 +306,7 @@
     "1ignCBoRJGQo52LTrguNZhXL3sY-_IuOw": "Servicio a campo-aceitera 5",
     "1QHtxRwpdMQJ_doosq89y2QSbnnUTlAq9": "Servicio a campo-aceitera 6",
     "12N25muXNmh7SWdnQdu9tK4ayPQ0FbmzI": "Servicio a campo-aceitera",
+    "1KOJwwc05nTdEBPpUS49xEkme7R71s_rc": "Servicio a campo",
     "1drO689g-qnk-iGRAmi61T9Lnv5bHJZrh": "ServicioACampo-1",
     "1Sg8-3AFC7udcb-REJ6ZdpmBfM4q-YXtm": "ServicioACampo-10",
     "1TN6dd3F6VMNTvHD0HvdorAXow6jljUi5": "ServicioACAMPO-2",
@@ -476,6 +492,13 @@
     "10wn_ZXoZSALEnnm0oRByC18t55SYWQaz": "Generadores-Alquiler",
     "1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-": "Generadores-Alquiler2",
     "10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS": "Generadores-Alquiler3",
-    "1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E": "Generadores-Alquiler4"
+    "1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E": "Generadores-Alquiler4",
+    "1pbGHx0whgX22I1VU98I7kb9wQIa1etPF": "DE-BUG_ARSA_Generacion_Folleto_Imrpesion",
+    "127RAlF6LEpF_t65d2p37KUkZ7p_M7P4V": "DE-BUG_ARSA_Generacion_Impresion (2)",
+    "1bOlLyDKcdRaN8kwuOtsT84m-RJWcPnex": "DE-BUG_ARSA_Generacion_WhatsApp (1)",
+    "1vPzbQl536KjVyDEaXBZ1pnh7x0AelB5l": "DE-BUG-1",
+    "1GWOb5sRV6V0rvdh-T5vqg2kJM0JP_cck": "DE-BUG-2",
+    "122Uv-cgyekwEsjo8S2Qra8CusJV3uu57": "DE-BUG-3",
+    "1yiLlB6eAS6oEOf93qNGCIuwOKy2y73aU": "hf_20260730_130032_b1ea16c1-757d-431f-87cb-6e1d44661d84"
   }
 }
