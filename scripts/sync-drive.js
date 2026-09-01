@@ -21,6 +21,8 @@ const DATA_JSON_PATH = path.join(__dirname, '..', 'data.json');
 
 // Categorías canónicas: define orden, ID de app, nombre visible e ícono.
 // El campo "match" lista variantes normalizadas que se aceptan desde Drive.
+// El campo opcional "folderId" fuerza a leer esa carpeta puntual de Drive,
+// sin depender de que sea subcarpeta de la raíz ni de matchear por nombre.
 const CANONICAL_CATEGORIES = [
   {
     id: 'pre',
@@ -65,6 +67,13 @@ const CANONICAL_CATEGORIES = [
     match: ['motores', 'motor'],
   },
   {
+    id: 'catalogos-motores',
+    name: 'FICHAS-MOTORES',
+    icon: 'fa-file-pdf',
+    match: [],
+    folderId: '1nJ_wdMYR2OgquDuE4Yj9exFAdOFVHxd7',
+  },
+  {
     id: 'pru',
     name: 'BANCO PRUEBAS',
     icon: 'fa-gauge-high',
@@ -75,7 +84,8 @@ const CANONICAL_CATEGORIES = [
     name: 'GENERACIÓN',
     icon: 'fa-bolt',
     match: ['generacion', 'generación', 'generadores', 'generador'],
-  },{
+  },
+  {
     id: 'deb',
     name: 'DE-BUG',
     icon: 'fa-oil-can',
@@ -145,6 +155,16 @@ function stripExtension(name) {
  */
 function driveLink(fileId) {
   return `https://drive.google.com/file/d/${fileId}/view?usp=drive_link`;
+}
+
+/**
+ * Clasifica un mimeType de Drive en un tipo simple que consume el frontend.
+ */
+function mimeToType(mimeType) {
+  if (mimeType === 'application/pdf') return 'pdf';
+  if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType.startsWith('video/')) return 'video';
+  return 'file';
 }
 
 // ─── Google Drive API ─────────────────────────────────────────────────────────
@@ -240,21 +260,29 @@ async function main() {
   // 4. Para cada categoría canónica (en orden), listar archivos
   const database = [];
   const fileNames = {};
+  const fileTypes = {};
   let totalLinks = 0;
 
   for (const cat of CANONICAL_CATEGORIES) {
-    const entry = categoryMap.get(cat.id);
+    // Prioridad: folderId explícito en la categoría > match por nombre bajo la raíz.
+    let sourceFolderId = cat.folderId || null;
 
-    if (!entry) {
-      console.warn(`⚠️  Categoría "${cat.name}" (${cat.id}) no tiene carpeta en Drive. Se incluye vacía.`);
-      database.push({ id: cat.id, name: cat.name, icon: cat.icon, links: [] });
-      continue;
+    if (!sourceFolderId) {
+      const entry = categoryMap.get(cat.id);
+      if (!entry) {
+        console.warn(`⚠️  Categoría "${cat.name}" (${cat.id}) no tiene carpeta en Drive. Se incluye vacía.`);
+        database.push({ id: cat.id, name: cat.name, icon: cat.icon, links: [] });
+        continue;
+      }
+      sourceFolderId = entry.folder.id;
+    } else {
+      console.log(`📌 Categoría "${cat.name}" (${cat.id}) usa folderId explícito: ${sourceFolderId}`);
     }
 
     // Listar archivos directos (no subcarpetas) de la carpeta de la categoría
     const allFiles = await listFolder(
       drive,
-      entry.folder.id,
+      sourceFolderId,
       " and mimeType != 'application/vnd.google-apps.folder'"
     );
 
@@ -271,10 +299,11 @@ async function main() {
     // Ordenar por nombre ascendente (estable entre ejecuciones)
     accepted.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
 
-    // Generar links y fileNames
+    // Generar links, fileNames y fileTypes
     const links = accepted.map(f => {
       const title = stripExtension(f.name);
       fileNames[f.id] = title;
+      fileTypes[f.id] = mimeToType(f.mimeType);
       return driveLink(f.id);
     });
 
@@ -293,7 +322,7 @@ async function main() {
   console.log(`   Entradas fileNames   : ${Object.keys(fileNames).length}`);
 
   // 5. Escribir data.json
-  const output = { database, fileNames };
+  const output = { database, fileNames, fileTypes };
   fs.writeFileSync(DATA_JSON_PATH, JSON.stringify(output, null, 2), 'utf8');
 
   console.log(`\n✅ data.json escrito correctamente en:\n   ${DATA_JSON_PATH}\n`);
