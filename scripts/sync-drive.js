@@ -65,10 +65,12 @@ const CANONICAL_CATEGORIES = [
     name: 'MOTORES',
     icon: 'fa-car-side',
     match: ['motores', 'motor'],
+    // ID explícito: evita que "FICHAS-MOTORES" sea interpretada como MOTORES.
+    folderId: '1f1Vh-Mc9bY4P94S2OLh6g31GkQNJqwm_',
   },
   {
     id: 'catalogos-motores',
-    name: 'FICHAS-MOTORES',
+    name: 'FICHAS TÉCNICAS',
     icon: 'fa-file-pdf',
     match: [],
     folderId: '1nJ_wdMYR2OgquDuE4Yj9exFAdOFVHxd7',
@@ -132,7 +134,14 @@ function matchCategory(folderName) {
   const norm = normalize(folderName);
   for (const cat of CANONICAL_CATEGORIES) {
     for (const variant of cat.match) {
-      if (norm === variant || norm.includes(variant) || variant.includes(norm)) {
+      // Se acepta el nombre exacto y variantes que COMIENZAN con el nombre
+      // de la categoría (p.ej. "Presentación Español"), pero no coincidencias
+      // internas. Así "FICHAS-MOTORES" nunca puede matchear "MOTORES".
+      if (
+        norm === variant ||
+        norm.startsWith(`${variant} `) ||
+        norm.startsWith(`${variant}-`)
+      ) {
         return cat;
       }
     }
