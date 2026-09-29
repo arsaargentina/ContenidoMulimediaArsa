@@ -36,19 +36,6 @@
         .img-loaded { filter: brightness(1.1) contrast(1.1); }
         .category-icon-box { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
         .glow-icon { filter: drop-shadow(0 0 8px currentColor); }
-        .media-card { padding: 0; }
-.card-caption { min-height: 82px; padding: 12px 12px 11px; background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(4,13,29,.42)); }
-.item-primary { color: #fff; font-size: clamp(.82rem, 1.45vw, 1.02rem); font-weight: 800; line-height: 1.15; letter-spacing: -.015em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item-detail { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 2.25em; margin-top: 5px; color: rgba(255,255,255,.62); font-size: .63rem; font-weight: 700; line-height: 1.25; letter-spacing: .03em; text-transform: uppercase; }
-.file-badge { position: absolute; top: 10px; left: 10px; z-index: 10; padding: 5px 7px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); background: rgba(7,17,35,.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: rgba(255,255,255,.92); font-size: 9px; font-weight: 800; letter-spacing: .08em; line-height: 1; }
-.placeholder-primary { max-width: 85%; color: rgba(255,255,255,.9); font-size: .75rem; font-weight: 800; line-height: 1.2; text-align: center; }
-.placeholder-detail { max-width: 85%; color: rgba(255,255,255,.45); font-size: .55rem; font-weight: 700; line-height: 1.25; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
-
-@media (max-width: 420px) {
-    .card-caption { min-height: 88px; padding: 10px; }
-    .item-primary { font-size: .78rem; }
-    .item-detail { font-size: .57rem; }
-}
     </style>
 </head>
 <body class="select-none touch-pan-y overflow-x-hidden">
@@ -132,35 +119,9 @@
             return id && fileTypes[id] ? fileTypes[id] : 'video';
         }
 
-      let selectedItems = new Set();
-let currentCategoryId = null;
-function getDriveId(url) { const match = url.match(/[-\w]{25,}/); return match ? match[0] : null; }
-
-function escapeHtml(value) {
-    return String(value || '').replace(/[&<>'"]/g, char => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;'
-    })[char]);
-}
-
-function getItemMeta(title, url) {
-    const cleanTitle = String(title || 'Archivo').replace(/\.[^/.]+$/, '').trim();
-    const parts = cleanTitle.split(/\s+—\s+/).map(part => part.trim()).filter(Boolean);
-    const primary = parts.shift() || 'Archivo';
-    const type = getFileType(url);
-
-    const typeMap = {
-        pdf: { label: 'PDF', icon: 'fa-file-pdf' },
-        image: { label: 'IMAGEN', icon: 'fa-image' },
-        video: { label: 'VIDEO', icon: 'fa-play' }
-    };
-
-    const file = typeMap[type] || typeMap.video;
-    const detail = parts
-        .filter(part => !/^(imagen|video|pdf)(\s+\d+)?$/i.test(part))
-        .join(' · ') || file.label;
-
-    return { primary, detail, typeLabel: file.label, icon: file.icon };
-}
+        let selectedItems = new Set();
+        let currentCategoryId = null;
+        function getDriveId(url) { const match = url.match(/[-\w]{25,}/); return match ? match[0] : null; }
 
         function renderHome() {
             const container = document.getElementById('view-categories');
@@ -185,69 +146,48 @@ function getItemMeta(title, url) {
             document.getElementById('btn-back').classList.remove('hidden');
         }
 
-       function renderGallery(items, title) {
-    document.getElementById('nav-title').innerText = title;
-    const container = document.getElementById('view-gallery');
-    container.innerHTML = '';
-
-    items.forEach(item => {
-        const fileId = getDriveId(item.url);
-        const isSelected = selectedItems.has(item.url);
-        const meta = getItemMeta(item.title, item.url);
-        const card = document.createElement('div');
-
-        card.className = `media-card active-scale relative glass-card rounded-2xl overflow-hidden shadow-lg ${isSelected ? 'item-selected' : ''}`;
-
-        const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s800-rw`;
-        const cardId = 'card-' + fileId;
-        const glyphMargin = meta.icon === 'fa-play' ? 'ml-1' : '';
-
-        card.innerHTML = `
-            <div class="thumbnail-container relative overflow-hidden" onclick="openPreview('${item.url}', '${item.title}')">
-                <div id="${cardId}-bg" class="absolute inset-0 flex flex-col items-center justify-center gap-2 shimmer"
-                    style="background: linear-gradient(135deg, #0f1c33 0%, #1e3a5f 50%, #0f1c33 100%);">
-
-                    <div class="w-12 h-12 rounded-full bg-industrial/20 border border-industrial/40 flex items-center justify-center">
-                        <i class="fa-solid ${meta.icon} text-industrial text-base ${glyphMargin}"></i>
+        function renderGallery(items, title) {
+            document.getElementById('nav-title').innerText = title;
+            const container = document.getElementById('view-gallery');
+            container.innerHTML = '';
+            items.forEach(item => {
+                const fileId = getDriveId(item.url);
+                const isSelected = selectedItems.has(item.url);
+                const card = document.createElement('div');
+                card.className = `active-scale relative glass-card rounded-2xl overflow-hidden p-2 shadow-lg ${isSelected ? 'item-selected' : ''}`;
+                const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=s800-rw`;
+                const cardId = 'card-' + fileId;
+                const isPdf = getFileType(item.url) === 'pdf';
+                const glyphIcon = isPdf ? 'fa-file-pdf' : 'fa-play';
+                const glyphMargin = isPdf ? '' : 'ml-1';
+                card.innerHTML = `
+                    <div class="thumbnail-container relative rounded-xl overflow-hidden mb-2" onclick="openPreview('${item.url}', '${item.title}')">
+                        <div id="${cardId}-bg" class="absolute inset-0 flex flex-col items-center justify-center gap-2 shimmer"
+                             style="background: linear-gradient(135deg, #0f1c33 0%, #1e3a5f 50%, #0f1c33 100%);">
+                            <div class="w-12 h-12 rounded-full bg-industrial/20 border border-industrial/40 flex items-center justify-center">
+                                <i class="fa-solid ${glyphIcon} text-industrial text-base ${glyphMargin}"></i>
+                            </div>
+                            <span class="text-[7px] font-black text-white/40 uppercase tracking-widest text-center px-2 leading-tight">${item.title}</span>
+                        </div>
+                        <img id="${cardId}-img" src="${thumbUrl}"
+                             class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                             onload="arsaThumbLoad(this)"
+                             onerror="arsaThumbError(this, '${cardId}-bg')">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:1.5px solid rgba(255,255,255,0.25);">
+                                <i class="fa-solid ${glyphIcon} text-white text-lg ${glyphMargin}"></i>
+                            </div>
+                        </div>
                     </div>
+                    <div class="flex justify-between items-center px-1">
+                        <span class="text-[8px] font-black text-white/80 uppercase tracking-tighter italic truncate w-24">${item.title}</span>
+                        <button onclick="event.stopPropagation(); toggleSelect('${item.url}', this)" class="w-8 h-8 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all border border-white/10"><i class="fa-solid fa-check text-xs"></i></button>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
 
-                    <span class="placeholder-primary">${escapeHtml(meta.primary)}</span>
-                    <span class="placeholder-detail">${escapeHtml(meta.detail)}</span>
-                </div>
-
-                <img id="${cardId}-img" src="${thumbUrl}"
-                    class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                    onload="arsaThumbLoad(this)"
-                    onerror="arsaThumbError(this, '${cardId}-bg')">
-
-                <span class="file-badge">
-                    <i class="fa-solid ${meta.icon} ${glyphMargin}"></i> ${meta.typeLabel}
-                </span>
-
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                        style="background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:1.5px solid rgba(255,255,255,0.25);">
-                        <i class="fa-solid ${meta.icon} text-white text-lg ${glyphMargin}"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-caption flex items-start gap-2">
-                <div class="min-w-0 flex-1">
-                    <p class="item-primary" title="${escapeHtml(meta.primary)}">${escapeHtml(meta.primary)}</p>
-                    <p class="item-detail" title="${escapeHtml(meta.detail)}">${escapeHtml(meta.detail)}</p>
-                </div>
-
-                <button onclick="event.stopPropagation(); toggleSelect('${item.url}', this)"
-                    aria-label="Seleccionar ${escapeHtml(meta.primary)}"
-                    class="w-9 h-9 shrink-0 rounded-xl ${isSelected ? 'bg-industrial text-black' : 'bg-white/10 text-white'} flex items-center justify-center transition-all border border-white/10">
-                    <i class="fa-solid fa-check text-xs"></i>
-                </button>
-            </div>`;
-
-        container.appendChild(card);
-    });
-}
+        function arsaThumbLoad(img) {
             if (img.naturalWidth > 50 && img.naturalHeight > 50) {
                 img.classList.add('img-loaded');
                 img.style.opacity = '1';
