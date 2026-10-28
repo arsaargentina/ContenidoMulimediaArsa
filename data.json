@@ -312,7 +312,8 @@
         "https://drive.google.com/file/d/10wn_ZXoZSALEnnm0oRByC18t55SYWQaz/view?usp=drive_link",
         "https://drive.google.com/file/d/1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-/view?usp=drive_link",
         "https://drive.google.com/file/d/10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS/view?usp=drive_link",
-        "https://drive.google.com/file/d/1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E/view?usp=drive_link"
+        "https://drive.google.com/file/d/1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E/view?usp=drive_link",
+        "https://drive.google.com/file/d/1OrVXxY_8m6bXWYGNRh-1gQMTE5PPORma/view?usp=drive_link"
       ]
     },
     {
@@ -577,6 +578,7 @@
     "1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-": "Generadores — Generación — Alquiler — Imagen 02",
     "10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS": "Generadores — Generación — Alquiler — Imagen 03",
     "1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E": "Generadores — Generación — Alquiler — Imagen 04",
+    "1OrVXxY_8m6bXWYGNRh-1gQMTE5PPORma": "Generadores — Generación — Alquiler — Imagen general",
     "1pbGHx0whgX22I1VU98I7kb9wQIa1etPF": "DE-BUG — ARSA Generación — Folleto de impresión — Versión 01",
     "127RAlF6LEpF_t65d2p37KUkZ7p_M7P4V": "DE-BUG — ARSA Generación — Folleto de impresión — Versión 02",
     "1bOlLyDKcdRaN8kwuOtsT84m-RJWcPnex": "DE-BUG — ARSA Generación — Folleto WhatsApp",
@@ -832,6 +834,7 @@
     "1NZP7P-xp2niuiYE3SQBuYsmbgN8M1Ue-": "image",
     "10tREC1yAB5GOZ9tYCICm8w0w12s5gfLS": "image",
     "1DsXfOZc1U8wvzMYgw5XazgHv6MKBpV4E": "image",
+    "1OrVXxY_8m6bXWYGNRh-1gQMTE5PPORma": "image",
     "1pbGHx0whgX22I1VU98I7kb9wQIa1etPF": "pdf",
     "127RAlF6LEpF_t65d2p37KUkZ7p_M7P4V": "pdf",
     "1bOlLyDKcdRaN8kwuOtsT84m-RJWcPnex": "pdf",
