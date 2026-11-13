@@ -22,7 +22,11 @@
         "https://drive.google.com/file/d/1CivGkEuV_5G0wa1Zd2-I8_H8TP2fbTAI/view?usp=drive_link",
         "https://drive.google.com/file/d/1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq/view?usp=drive_link",
         "https://drive.google.com/file/d/1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-/view?usp=drive_link",
-        "https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view?usp=drive_link"
+        "https://drive.google.com/file/d/1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu/view?usp=drive_link",
+        "https://drive.google.com/file/d/1JSjbeTAsj12dz5GK7QAsvQ6ZZ-dkc_tG/view?usp=drive_link",
+        "https://drive.google.com/file/d/1v4V5E0GgyU6Gc7cAGg_VmKS9sH9Ggiyd/view?usp=drive_link",
+        "https://drive.google.com/file/d/17gBXHQ1ByAMLzWrYHygU_SCBIVNz328E/view?usp=drive_link",
+        "https://drive.google.com/file/d/1j05ebrUW3o4_V1SbIquVVQy_Ey30H4u5/view?usp=drive_link"
       ]
     },
     {
@@ -349,6 +353,10 @@
     "1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq": "IoT — Captura de sistema — Imagen 04",
     "1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-": "IoT — Demo de sistema — Video",
     "1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu": "IoT — Resumen ejecutivo — PDF",
+    "1JSjbeTAsj12dz5GK7QAsvQ6ZZ-dkc_tG": "IOT-BOMBA CONTRA INCENDIO-2",
+    "1v4V5E0GgyU6Gc7cAGg_VmKS9sH9Ggiyd": "IOT-BOMBA CONTRA INCENDIO-3",
+    "17gBXHQ1ByAMLzWrYHygU_SCBIVNz328E": "IOT-BOMBA CONTRA INCENDIO-4",
+    "1j05ebrUW3o4_V1SbIquVVQy_Ey30H4u5": "IOT-BOMBA CONTRA INCENDIO",
     "1dPxMGw7E_chiK9ZOPGZ3Boy3T8EnqEI1": "Caterpillar C11 — Servicio a Campo — Retiro de motor — Imagen",
     "1AO9d4vo3s5aISnC5YMToogxy34Zgz3co": "Claas — Servicio a Campo — Imagen",
     "12N25muXNmh7SWdnQdu9tK4ayPQ0FbmzI": "Doosan — Servicio a Campo — Motor — Imagen 01",
@@ -610,6 +618,10 @@
     "1RKxJTRrjbuGmi3mWdWkBY_CQ_ZfNYwiq": "image",
     "1FuNupR3W0O95N4OjsEJ6Wq80YzAz_2W-": "video",
     "1WWQPEtGbCQVVVTzKy-280sIcaFfofJvu": "pdf",
+    "1JSjbeTAsj12dz5GK7QAsvQ6ZZ-dkc_tG": "image",
+    "1v4V5E0GgyU6Gc7cAGg_VmKS9sH9Ggiyd": "image",
+    "17gBXHQ1ByAMLzWrYHygU_SCBIVNz328E": "image",
+    "1j05ebrUW3o4_V1SbIquVVQy_Ey30H4u5": "image",
     "1dPxMGw7E_chiK9ZOPGZ3Boy3T8EnqEI1": "image",
     "1AO9d4vo3s5aISnC5YMToogxy34Zgz3co": "image",
     "12N25muXNmh7SWdnQdu9tK4ayPQ0FbmzI": "image",
